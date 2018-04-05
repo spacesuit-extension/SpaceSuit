@@ -1,0 +1,34 @@
+{
+  "name": "spacesuit",
+  "version": "0.0.1",
+  "description": "A Chrome extension to enable Ledger devices to use Etherem Dapps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build --no-minify content.js && parcel build --no-minify inpage.js && parcel build --no-minify options.js && cp options.html manifest.json dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamespic/SpaceSuit.git"
+  },
+  "keywords": [
+    "ethereum",
+    "web3",
+    "chrome-extension",
+    "ledger"
+  ],
+  "author": "James Pickering",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jamespic/SpaceSuit/issues"
+  },
+  "homepage": "https://github.com/jamespic/SpaceSuit#readme",
+  "dependencies": {
+    "@ledgerhq/hw-transport-u2f": "^4.7.3",
+    "@ledgerhq/web3-subprovider": "^4.7.3",
+    "web3-provider-engine": "^13.8.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.7.0"
+  }
+}

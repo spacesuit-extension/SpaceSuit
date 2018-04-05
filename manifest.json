@@ -1,0 +1,16 @@
+{
+  "name": "SpaceSuit",
+  "version": "0.0.1",
+  "description": "An extension to allow Ledger devices to use Ethereum Dapps",
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
+      "run_at": "document_start",
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "inpage.js"
+  ]
+}
