@@ -1,44 +1,23 @@
 import ProviderEngine from "web3-provider-engine";
-import DefaultFixture from 'web3-provider-engine/subproviders/default-fixture'
-import NonceTrackerSubprovider from 'web3-provider-engine/subproviders/nonce-tracker'
-import VmSubprovider from 'web3-provider-engine/subproviders/vm'
-import CacheSubprovider from 'web3-provider-engine/subproviders/cache'
-import SubscriptionSubprovider from 'web3-provider-engine/subproviders/subscriptions'
-import InflightCacheSubprovider from 'web3-provider-engine/subproviders/inflight-cache'
-import SanitizingSubprovider from 'web3-provider-engine/subproviders/sanitizer'
-import createLedgerSubprovider from "@ledgerhq/web3-subprovider";
-import TransportU2F from "@ledgerhq/hw-transport-u2f";
-import FetchSubprovider from "web3-provider-engine/subproviders/fetch";
 
-import version from './package.json'
+import {configureEngine} from './config'
+const engine = new ProviderEngine({ pollingInterval: 15000 }) // Can we easily make this configurable?
 
-const config = {
-  blockTime: 15000,
-  networkId: 1,
-  path: "44'/60'/0'/0",
-  rpcUrl: 'http://localhost:8545'
-}
-
-const engine = new ProviderEngine({ pollingInterval: config.blockTime });
-const getTransport = () => TransportU2F.create();
-const ledger = createLedgerSubprovider(getTransport, {
-  accountsLength: 10,
-  networkId: config.networkId,
-  path: config.path
+const configPromise = new Promise((resolve, reject) => {
+  document.addEventListener('configureSpacesuit', function configListener(e) {
+    resolve(JSON.parse(e.detail))
+    document.removeEventListener('configureSpacesuit', configListener)
+  })
+}).then(config => {
+  configureEngine(engine, config)
 })
-let started = false
-engine.addProvider(new DefaultFixture({ web3_clientVersion: `SpaceSuit/${version}/javascript` }))
-engine.addProvider(new NonceTrackerSubprovider())
-engine.addProvider(new VmSubprovider())
-engine.addProvider(new SanitizingSubprovider())
-engine.addProvider(new CacheSubprovider())
-engine.addProvider(new SubscriptionSubprovider({ pendingBlockTimeout: config.blockTime }))
-engine.addProvider(new InflightCacheSubprovider())
-engine.addProvider(ledger)
-engine.addProvider(new FetchSubprovider({ rpcUrl: config.rpcUrl }))
+
 window.web3 = {
   get currentProvider() {
-    engine.start()
+    configPromise.then(config => {
+      // Don't start engine until something asks for it, an it's configured
+      engine.start()
+    })
     return engine
   }
 }

@@ -26,6 +26,7 @@
   "dependencies": {
     "@ledgerhq/hw-transport-u2f": "^4.7.3",
     "@ledgerhq/web3-subprovider": "^4.7.3",
+    "eth-json-rpc-infura": "^3.1.0",
     "web3-provider-engine": "^13.8.0"
   },
   "devDependencies": {
