@@ -1,4 +1,5 @@
 import DefaultFixture from 'web3-provider-engine/subproviders/default-fixture'
+import DefaultBlockParameterSubprovider from './middleware/default-block-parameter'
 import NonceTrackerSubprovider from 'web3-provider-engine/subproviders/nonce-tracker'
 import CacheSubprovider from 'web3-provider-engine/subproviders/cache'
 import SubscriptionSubprovider from 'web3-provider-engine/subproviders/subscriptions'
@@ -9,9 +10,9 @@ import LoggingSubprovider from './middleware/logging'
 import EstimateGasSubprovider from './middleware/estimate-gas'
 import createLedgerSubprovider from "@ledgerhq/web3-subprovider"
 import TransportU2F from "@ledgerhq/hw-transport-u2f"
-import FetchSubprovider from "web3-provider-engine/subproviders/fetch"
-import SubproviderFromProvider from 'web3-provider-engine/subproviders/web3.js'
-import createInfuraProvider from 'eth-json-rpc-infura/src/createProvider'
+import FetchSubprovider from 'web3-provider-engine/subproviders/fetch'
+import InfuraSubprovider from 'web3-provider-engine/subproviders/infura'
+
 
 import {version} from './package.json'
 
@@ -20,6 +21,7 @@ export function configureEngine(engine, config) {
     engine.addProvider(new LoggingSubprovider())
   }
   engine.addProvider(new DefaultFixture({ web3_clientVersion: `SpaceSuit/${version}/javascript` }))
+  engine.addProvider(new DefaultBlockParameterSubprovider())
   engine.addProvider(new NonceTrackerSubprovider())
   engine.addProvider(new SanitizingSubprovider())
   engine.addProvider(new CacheSubprovider())
@@ -39,7 +41,6 @@ export function configureEngine(engine, config) {
   if ('rpcUrl' in config) {
     engine.addProvider(new FetchSubprovider({ rpcUrl: config.rpcUrl }))
   } else {
-    let infuraProvider = createInfuraProvider({network: config.network || 'mainnet'})
-    engine.addProvider(new SubproviderFromProvider(infuraProvider))
+    engine.addProvider(new InfuraSubprovider({network: config.infuraNetwork || 'mainnet'}))
   }
 }

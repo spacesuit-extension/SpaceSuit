@@ -53,11 +53,10 @@ function toNum(x) { return parseInt(x.substr(2), 16) }
 window.addEventListener('load', async () =>  {
   // Now run the tests!
   await test('web3_clientVersion', [], 'SpaceSuit/0.0.1/javascript')
-  await test('web3_sha3', ['0x0a0a0a0a'], '0x1a4f9ccbb928522de9b7e7ae965d094d7e68dd25409ce56d00518111341e4b38')
   await test('net_listening', [], true)
   await test('net_peerCount', [], (x) => x >= 0)
   await test('net_version', [], "1")
-  await test('eth_accounts', [], (x) => x[1].toLowerCase() === '0x758e53a86224f6511dbcabd9a364e21b4689653f')
+  await test('eth_accounts', [], (x) => x[1] === '0x758e53a86224f6511dbcabd9a364e21b4689653f')
   await test('eth_blockNumber', [], (x) => toNum(x) > 5000000)
   await test('eth_call', [{data: '0x16c72721', to: '0x2BD2326c993DFaeF84f696526064FF22eba5b362', from: '0x2BD2326c993DFaeF84f696526064FF22eba5b362'}], (x) => toNum(x) === 1)
   await test('eth_coinbase', [], x => /0x[0-9a-fA-F]{40}/.exec(x))
@@ -73,6 +72,27 @@ window.addEventListener('load', async () =>  {
   // eth_getFilterLogs
   // eth_getLogs
   await test('eth_getStorageAt', ['0x2BD2326c993DFaeF84f696526064FF22eba5b362', '0x0', 'latest'], x => toNum(x) === 1)
-  await test('eth_getTransactionByBlockHashAndIndex', ['0x6accdba8a0531b4a66811b5f537ba77ee2440ad52e7d17091b88a482b391d48d', '0x0'], x =>  /0x[0-9a-fA-F]+/.exec(x.raw))
-  await test('eth_getTransactionByBlockNumberAndIndex', ['0x525ee2', '0x0'], x => /0x[0-9a-fA-F]+/.exec(x.raw))
+  await test('eth_getTransactionByBlockHashAndIndex', ['0x6accdba8a0531b4a66811b5f537ba77ee2440ad52e7d17091b88a482b391d48d', '0x0'], x =>  /0x[0-9a-fA-F]+/.exec(x.blockHash))
+  await test('eth_getTransactionByBlockNumberAndIndex', ['0x525ee2', '0x0'], x => /0x[0-9a-fA-F]+/.exec(x.blockHash))
+  await test('eth_getTransactionByHash', ['0xf57922fbedb817c72c0ce045ddbaa1895638f769ba303a0eed597b98108a637e'], x => /0x[0-9a-fA-F]+/.exec(x.blockHash))
+  await test('eth_getTransactionCount', ['0x2a65Aca4D5fC5B5C859090a6c34d164135398226'], x => toNum(x) > 0)
+  await test('eth_getTransactionCount', ['0x2a65Aca4D5fC5B5C859090a6c34d164135398226', '0x508da8'], x => toNum(x) === 3209851)
+  await test('eth_getTransactionReceipt', ['0xf57922fbedb817c72c0ce045ddbaa1895638f769ba303a0eed597b98108a637e'], x => toNum(x.gasUsed) > 0)
+  await test('eth_getUncleByBlockHashAndIndex', ['0x9e7e9a804426089654b1dc6b993ada134c4e58f539acae12dc037bc7f482cd87', '0x0'], x =>  /0x[0-9a-fA-F]{40}/.exec(x.miner))
+  await test('eth_getUncleByBlockNumberAndIndex', ['0x531a82', '0x0'], x => /0x[0-9a-fA-F]{40}/.exec(x.miner))
+  await test('eth_getUncleCountByBlockHash', ['0x9e7e9a804426089654b1dc6b993ada134c4e58f539acae12dc037bc7f482cd87'], x => toNum(x) === 1)
+  await test('eth_getUncleCountByBlockNumber', ['0x531a82'], x => toNum(x) === 1)
+  await test('eth_mining', [], false)
+  // eth_newBlockFilter
+  // eth_newFilter
+  // eth_newPendingTransactionsFilter
+  await test('eth_protocolVersion', [], x => toNum(x) !== 0)
+  // eth_sendRawTransaction
+  // eth_sendTransaction
+  // eth_signTransaction
+  await test('eth_syncing', [], false)
+  // eth_uninstallFilter
+  // personal_sign
+  // eth_subscribe
+  // eth_unsubscribe
 })

@@ -14,7 +14,7 @@ export default class LowerCaseAddressesSubprovider extends Subprovider {
     if (payload.method === 'eth_accounts') {
       next((err, result, cb) => {
         if (result != null) {
-          for (let i in result) {
+          for (let i = 0; i < result.length; i++) {
             result[i] = result[i].toLowerCase()
           }
         }

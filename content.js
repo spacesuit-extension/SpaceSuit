@@ -8,11 +8,10 @@ const defaultConfig = JSON.stringify({
   blockTime: 15000,
   networkId: 1,
   path: "44'/60'/0'/0",
-  rpcUrl: 'http://localhost:8545',
+  // rpcUrl: 'http://localhost:8545',
   // rpcUrl: 'https://api.myetherapi.com/eth',
-  // rpcUrl: 'http://54.196.249.208:8545',
-  // network: 'mainnet'
-  debug: false
+  infuraNetwork: 'mainnet',
+  debug: true
 })
 window.addEventListener('load', () => {
   chrome.storage.local.get({spacesuitConfig: defaultConfig}, (config) => {
