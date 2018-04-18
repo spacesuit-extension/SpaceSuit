@@ -9,7 +9,7 @@ const configPromise = new Promise((resolve, reject) => {
     document.removeEventListener('configureSpacesuit', configListener)
   })
 }).then(config => {
-  configureEngine(engine, config)
+  return configureEngine(engine, config)
 })
 
 window.web3 = {

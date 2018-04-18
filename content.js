@@ -8,9 +8,10 @@ const defaultConfig = JSON.stringify({
   blockTime: 15000,
   networkId: 1,
   path: "44'/60'/0'/0",
-  // rpcUrl: 'http://localhost:8545',
+  rpcUrl: 'http://localhost:8545',
   // rpcUrl: 'https://api.myetherapi.com/eth',
-  infuraNetwork: 'mainnet',
+  // infuraNetwork: 'mainnet',
+  useHacks: true,
   debug: true
 })
 window.addEventListener('load', () => {

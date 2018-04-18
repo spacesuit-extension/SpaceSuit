@@ -14,15 +14,21 @@ function call(method, params) {
 function timeout(p, t) {
   return new Promise((resolve, reject) => {
     p.then(resolve, reject)
-    setTimeout(reject, t)
+    setTimeout(() => reject('Timeout'), t)
+  })
+}
+
+function pause(t) {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, t)
   })
 }
 
 function norm(value) {
   return JSON.stringify(value).toLowerCase()
 }
-async function test(method, params, assertion) {
-  try {
+function test(method, params, assertion) {
+  return report(async function () {
     let result = await timeout(call(method, params), 10000)
     if (typeof assertion == 'function') {
       if (!assertion(result)) throw new Error("Assertion Failed")
@@ -31,11 +37,17 @@ async function test(method, params, assertion) {
         throw new Error(`${norm(result)} != ${norm(assertion)}`)
       }
     }
+  }, method)
+}
+
+async function report(action, successMessage) {
+  try {
+    await action()
     let report = document.createElement('div')
     let status = document.createElement('b')
     status.innerText = status.className = 'success'
     report.appendChild(status)
-    report.append(' ' + method)
+    report.append(' ' + successMessage)
     document.body.appendChild(report)
   } catch (e) {
     console.error(e)
@@ -45,6 +57,52 @@ async function test(method, params, assertion) {
     report.appendChild(status)
     report.append(' ' + e)
     document.body.appendChild(report)
+  }
+}
+
+function testFilter(method, args, assertion) {
+  return report(async () => {
+    let filterId = await call(method, args)
+    try {
+      for (let i = 0; i < 120; i++) {
+        let result = await call('eth_getFilterChanges', [filterId])
+        if (result.length > 0) {
+          if (assertion(result[0])) return
+          else throw new Error(JSON.stringify(result))
+        }
+        await pause(1000)
+      }
+      throw new Error('No filter changes in 30 seconds')
+    } finally {
+      await call('eth_uninstallFilter', [filterId])
+    }
+  }, method)
+}
+
+function testGetFilterLogs() {
+  return report(async () => {
+    let filterId = await call('eth_newFilter', [{address: '0x0b8D56c26D8CF16FE1BdDf4967753503d974DE06', fromBlock: '0x25ad43', toBlock: '0x25ad50', topics: []}])
+    try {
+      let filterLogs = await call('eth_getFilterLogs', [filterId])
+      if (filterLogs.length !== 1) throw new Error(filterLogs)
+    } finally {
+      await call('eth_uninstallFilter', [filterId])
+    }
+
+  }, 'eth_getFilterLogs')
+}
+
+async function skipIfMainnet(f) {
+  let networkId = await call('net_version', [])
+  if (networkId == 1) { // This covers ETH and ETC, but need to be more careful if testing other forks
+    let report = document.createElement('div')
+    let status = document.createElement('b')
+    status.innerText = status.className = 'skip'
+    report.appendChild(status)
+    report.append(' Skipping transactional test, because on mainnet')
+    document.body.appendChild(report)
+  } else {
+    await f()
   }
 }
 
@@ -68,9 +126,8 @@ window.addEventListener('load', async () =>  {
   await test('eth_getBlockTransactionCountByHash', ['0x88e96d4537bea4d9c05d12549907b32561d3bf31f45aae734cdc119f13406cb6'], '0x0')
   await test('eth_getBlockTransactionCountByNumber', ['0x1'], '0x0')
   await test('eth_getCode', ['0x2BD2326c993DFaeF84f696526064FF22eba5b362'], x => /0x[0-9a-fA-F]+/.exec(x))
-  // eth_getFilterChanges
-  // eth_getFilterLogs
-  // eth_getLogs
+  await testGetFilterLogs()
+  await test('eth_getLogs', [{address: '0x0b8D56c26D8CF16FE1BdDf4967753503d974DE06', fromBlock: '0x25ad43', toBlock: '0x25ad50', topics: []}], x => x.length === 1)
   await test('eth_getStorageAt', ['0x2BD2326c993DFaeF84f696526064FF22eba5b362', '0x0', 'latest'], x => toNum(x) === 1)
   await test('eth_getTransactionByBlockHashAndIndex', ['0x6accdba8a0531b4a66811b5f537ba77ee2440ad52e7d17091b88a482b391d48d', '0x0'], x =>  /0x[0-9a-fA-F]+/.exec(x.blockHash))
   await test('eth_getTransactionByBlockNumberAndIndex', ['0x525ee2', '0x0'], x => /0x[0-9a-fA-F]+/.exec(x.blockHash))
@@ -83,16 +140,18 @@ window.addEventListener('load', async () =>  {
   await test('eth_getUncleCountByBlockHash', ['0x9e7e9a804426089654b1dc6b993ada134c4e58f539acae12dc037bc7f482cd87'], x => toNum(x) === 1)
   await test('eth_getUncleCountByBlockNumber', ['0x531a82'], x => toNum(x) === 1)
   await test('eth_mining', [], false)
-  // eth_newBlockFilter
-  // eth_newFilter
-  // eth_newPendingTransactionsFilter
   await test('eth_protocolVersion', [], x => toNum(x) !== 0)
   // eth_sendRawTransaction
-  // eth_sendTransaction
-  // eth_signTransaction
+  await skipIfMainnet(async () => test('eth_sendTransaction', [{data: '0x', from: await call('eth_coinbase', [])}], x => /0x[0-9a-fA-F]+/.exec(x.raw)))
+  await test('eth_signTransaction', [{data: '0x', from: await call('eth_coinbase', [])}], x => /0x[0-9a-fA-F]+/.exec(x.raw))
   await test('eth_syncing', [], false)
-  // eth_uninstallFilter
-  // personal_sign
+  await test('personal_sign', ['0x5363686f6f6c627573', await call('eth_coinbase', [])], x => /0x[0-9a-fA-F]+/.exec(x))
+  await test('eth_sign', [await call('eth_coinbase', []), '0x5363686f6f6c627573'], x => /0x[0-9a-fA-F]+/.exec(x))
+  await test('eth_sign', [await call('eth_coinbase', []), '0x19457468657265756d205369676e6564204d6573736167653a0a395363686f6f6c627573'], x => /0x[0-9a-fA-F]+/.exec(x))
   // eth_subscribe
   // eth_unsubscribe
+  await testFilter('eth_newBlockFilter', [], x => /0x[0-9a-fA-F]+/.exec(x))
+  await testFilter('eth_newFilter', [{address: '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819', fromBlock: '0x0', toBlock: 'latest', limit: '0xa'}], x => x.address === '0x8d12a197cb00d4747a1fe03395095ce2a5cc6819')
+  await testFilter('eth_newPendingTransactionFilter', [], x => /0x[0-9a-fA-F]+/.exec(x))
+
 })
