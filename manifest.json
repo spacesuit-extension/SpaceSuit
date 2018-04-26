@@ -15,5 +15,6 @@
   ],
   "web_accessible_resources": [
     "inpage.js"
-  ]
+  ],
+  "options_page": "options.html"
 }

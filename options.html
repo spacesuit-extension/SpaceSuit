@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SpaceSuit Options</title>
+    <link rel="stylesheet" href="node_modules/material-design-lite/material.css">
+    <script src="node_modules/material-design-lite/material.js"></script>
+    <link rel="stylesheet" href="node_modules/material-icons/iconfont/material-icons.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="mdl-color--grey-100 mdl-base">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">SpaceSuit Options</span>
+        </div>
+      </header>
+      <main class="mdl-layout__content">
+        <section class="options-section mdl-grid mdl-shadow--2dp">
+          <div class="mdl-cell mdl-cell--3-col">
+            <div class="option-name">Network</div>
+          </div>
+          <div class="mdl-cell mdl-cell--9-col">
+            <div class="network-label">Ethereum (ETH)</div>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="infura-mainnet">
+                <input type="radio" id="infura-mainnet" class="mdl-radio__button" name="network" value="infura-mainnet" checked>
+                <span class="mdl-radio__label">Infura (recommended)</span>
+              </label>
+            </div>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="mycryptoapi">
+                <input type="radio" id="mycryptoapi" class="mdl-radio__button" name="network" value="mycryptoapi" checked>
+                <span class="mdl-radio__label">MyCryptoApi</span>
+              </label>
+            </div>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="blockscale">
+                <input type="radio" id="blockscale" class="mdl-radio__button" name="network" value="blockscale" checked>
+                <span class="mdl-radio__label">Blockscale</span>
+              </label>
+            </div>
+            <div class="network-label">Ethereum Classic (ETC)</div>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="ethereum-commonwealth">
+                <input type="radio" id="ethereum-commonwealth" class="mdl-radio__button" name="network" value="ethereum-commonwealth" checked>
+                <span class="mdl-radio__label">Ethereum Commonwealth (recommended)</span>
+              </label>
+            </div>
+            <div class="network-label">Testnet</div>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="infura-ropsten">
+                <input type="radio" id="infura-ropsten" class="mdl-radio__button" name="network" value="infura-ropsten" checked>
+                <span class="mdl-radio__label">Infura Ropsten</span>
+              </label>
+            </div>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="infura-kovan">
+                <input type="radio" id="infura-kovan" class="mdl-radio__button" name="network" value="infura-kovan" checked>
+                <span class="mdl-radio__label">Infura Kovan</span>
+              </label>
+            </div>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="infura-rinkeby">
+                <input type="radio" id="infura-rinkeby" class="mdl-radio__button" name="network" value="infura-rinkeby" checked>
+                <span class="mdl-radio__label">Infura Rinkeby</span>
+              </label>
+            </div>
+            <div>
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="infura-ropsten">
+                <input type="radio" id="infura-rinkeby" class="mdl-radio__button" name="network" value="infura-rinkeby" checked>
+                <span class="mdl-radio__label network-label">Custom</span>
+              </label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <input class="mdl-textfield__input" type="text" id="rpcUrl">
+              <label class="mdl-textfield__label" for="rpcUrl">Custom RPC Url</label>
+            </div>
+            <div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="number" id="rpcUrl">
+                <label class="mdl-textfield__label" for="rpcUrl">Chain Id</label>
+              </div>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">ETH</button>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">ETC</button>
+              <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Guess</button>
+            </div>
+          </div>
+          <div class="mdl-cell mdl-cell--3-col">
+            <div class="option-name" id="hacks-label">Use Hacky Workarounds</div>
+          </div>
+          <div class="mdl-cell mdl-cell--9-col">
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+              <input type="checkbox" id="use-hacks" class="mdl-switch__input" checked>
+            </label>
+            <div class="mdl-tooltip" data-mdl-for="use-hacks">
+              Use hacky workarounds for compatibility with buggy dapps
+            </div>
+          </div>
+          <div class="mdl-cell mdl-cell--3-col">
+            <div class="option-name" id="hacks-label">Debug</div>
+          </div>
+          <div class="mdl-cell mdl-cell--9-col">
+            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+              <input type="checkbox" id="debug" class="mdl-switch__input">
+              <span class="mdl-switch__label"></span>
+            </label>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

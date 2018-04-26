@@ -1,7 +1,8 @@
 import ProviderEngine from "web3-provider-engine";
+import Web3 from 'web3'
 
 import {configureEngine} from './config'
-const engine = new ProviderEngine({ pollingInterval: 15000 }) // Can we easily make this configurable?
+const engine = new ProviderEngine({ pollingInterval: 5000 }) // Can we easily make this configurable?
 
 const configPromise = new Promise((resolve, reject) => {
   document.addEventListener('configureSpacesuit', function configListener(e) {
@@ -9,6 +10,19 @@ const configPromise = new Promise((resolve, reject) => {
     document.removeEventListener('configureSpacesuit', configListener)
   })
 }).then(config => {
+  if (config.useHacks) {
+    // Lazily load an actual web3 instance
+    let web3 = null
+    Object.defineProperty(window, 'web3', {
+      get() {
+        if (web3 === null) {
+          web3 = new Web3(engine)
+          engine.start()
+        }
+        return web3
+      }
+    })
+  }
   return configureEngine(engine, config)
 })
 

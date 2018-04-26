@@ -1,0 +1,17 @@
+section {
+  max-width: 960px;
+}
+
+main {
+  padding-top: 48px;
+}
+
+.option-name {
+  font-size: 18px;
+  font-weight: bolder;
+}
+
+.network-label {
+  font-size: 16px;
+  font-weight: bold;
+}
