@@ -9,12 +9,14 @@ export default class DefaultBlockParameterSubprovider extends Subprovider {
     switch (payload.method) {
       case 'eth_getBalance':
       case 'eth_getCode':
-      case 'eth_getTransactionCount':
       case 'eth_call':
         if (payload.params.length === 1) payload.params[1] = 'latest'
         break
       case 'eth_getStorageAt':
         if (payload.params.length === 2) payload.params[2] = 'latest'
+        break
+      case 'eth_getTransactionCount':
+        if (payload.params.length === 1) payload.params[1] = 'pending'
         break
     }
     next()
