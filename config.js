@@ -38,7 +38,7 @@ export function configureEngine(engine, config) {
       }
     )
   )
-  if ('rpcUrl' in config) {
+  if (config.rpcUrl != null) {
     engine.addProvider(new FetchSubprovider({ rpcUrl: config.rpcUrl }))
   } else {
     engine.addProvider(new InfuraSubprovider({network: config.infuraNetwork || 'mainnet'}))

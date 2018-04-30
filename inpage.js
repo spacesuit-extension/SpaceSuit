@@ -6,7 +6,7 @@ const engine = new ProviderEngine({ pollingInterval: 5000 }) // Can we easily ma
 
 const configPromise = new Promise((resolve, reject) => {
   document.addEventListener('configureSpacesuit', function configListener(e) {
-    resolve(JSON.parse(e.detail))
+    resolve(e.detail)
     document.removeEventListener('configureSpacesuit', configListener)
   })
 }).then(config => {
