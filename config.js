@@ -24,7 +24,11 @@ export function configureEngine(engine, config) {
   engine.addProvider(new NonceTrackerSubprovider())
   engine.addProvider(new SanitizingSubprovider())
   engine.addProvider(new CacheSubprovider())
-  engine.addProvider(new SubscriptionSubprovider({ pendingBlockTimeout: 5000 }))
+  let subscriptionSubprovider = new SubscriptionSubprovider({ pendingBlockTimeout: 5000 })
+  subscriptionSubprovider.on('data', (err, notification) => {
+    engine.emit('data', err, notification)
+  })
+  engine.addProvider(subscriptionSubprovider)
   engine.addProvider(new InflightCacheSubprovider())
   if (config.useHacks) engine.addProvider(new LowerCaseAddressesSubprovider())
   engine.addProvider(new EstimateGasSubprovider())

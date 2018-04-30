@@ -138,9 +138,9 @@ class OptionsMenu extends React.Component {
                     label="Derivation Path"
                     value={this.state.path}
                     onChange={(e) => this.setState({path: e.target.value})}/>
-                <Button onClick={() => this.setState({path: ethPath})} color="primary">ETH</Button>{' '}
-                <Button onClick={() => this.setState({path: etcPath})} color="primary">ETC</Button>{' '}
-                <Button onClick={() => this.setState({path: testnetPath})} color="secondary">Testnet</Button>
+                <Button onClick={() => this.setState({path: "44'/60'/0'/0"})} color="primary">ETH</Button>{' '}
+                <Button onClick={() => this.setState({path: "44'/61'/0'/0"})} color="primary">ETC</Button>{' '}
+                <Button onClick={() => this.setState({path: "44'/1'/0'/0"})} color="secondary">Testnet</Button>
               </ListItem>
             </React.Fragment>
             : null
