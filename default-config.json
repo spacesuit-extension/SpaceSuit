@@ -3,5 +3,5 @@
   "path": "44'/60'/0'/0",
   "infuraNetwork": "mainnet",
   "useHacks": true,
-  "debug": true
+  "debug": false
 }

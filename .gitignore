@@ -60,3 +60,4 @@ typings/
 .cache
 package-lock.json
 dist/
+integration-test/build/
