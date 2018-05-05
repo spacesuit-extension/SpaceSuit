@@ -7,27 +7,42 @@ const serveStatic = require('serve-static')
 
 const mnemonic = 'hero rocket space suit atom helmet alien flash jacket solar engine vacuum'
 const contractCode = (
-  // Simple contract that logs 0xff whenever called
+  // Simple contract that logs 0xff whenever called, and returns 1
   '0x' +
   // Constructor bootstrap
-  '6007' + // PUSH1 0x7 (length)
-  '600c' + // PUSH1 0xc (code offset)
+  // Set value 0 of storage to 1
+  '6001' + // PUSH1 0x1 (storage value)
+  '6000' + // PUSH1 0x0 (storage location)
+  '55' + // SSTORE
+  // Load runtime code
+  '6011' + // PUSH1 0x11 (length)
+  '6011' + // PUSH1 0x11 (code offset - same size is coincidence)
   '6000' + // PUSH1 0x0 (memory offset)
   '39' + // CODECOPY
-  '6007' + // PUSH1 0x1 (length)
+  // Return runtime code from constructos
+  '6011' + // PUSH1 0x1 (length)
   '6000' + // PUSH1 0x0 (memory offset)
   'f3' + // RETURN
   // Runtime code
+  // Log with topic 0xff
   '60ff' + // PUSH1 0xff (index)
   '6000' + // PUSH1 0x0 (mem length)
   '6000' + // PUSH1 0x0 (mem offset)
-  'a1' // LOG1
+  'a1' + // LOG1
+  // Write 1 to memory location 0
+  '6001' + // PUSH1 0x1 (data)
+  '6000' + // PUSH1 0x0 (memory location)
+  '52' + // MSTORE
+  // Return 32 bytes from memory location 0
+  '6020' + // PUSH1 0x20 (length)
+  '6000' + // PUSH1 0x0 (memory location)
+  'f3' // RETURN
 )
 
 var blockchainServer = Ganache.server({
   mnemonic,
-  network_id: 1969,
-  default_balance_ether: 1000000,
+  network_id: 71,
+  default_balance_ether: 1000000000000,
   port: 1969,
   gas_price: 1000000000,
   locked: true,
@@ -85,3 +100,4 @@ let server = https.createServer({
 
 server.listen(4443)
 console.log('Serving HTTPS on port 4443')
+console.log('Configure SpaceSuit to talk to http://localhost:1969, and then open https://localhost:4443 to run the tests')

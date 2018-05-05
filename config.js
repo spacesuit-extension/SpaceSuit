@@ -32,7 +32,7 @@ export function configureEngine(engine, config) {
   engine.addProvider(new InflightCacheSubprovider())
   if (config.useHacks) engine.addProvider(new LowerCaseAddressesSubprovider())
   engine.addProvider(new EstimateGasSubprovider())
-  engine.addProvider(new SignToPersonalSignSubprovider(config.useHacks))
+  engine.addProvider(new SignToPersonalSignSubprovider({stripPrefix: config.useHacks}))
   engine.addProvider(
     createLedgerSubprovider(
       () => TransportU2F.create(), {

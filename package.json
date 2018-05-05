@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build --no-minify content.js && parcel build --no-minify inpage.js && parcel build --no-minify --public-url / options.html && parcel build --no-minify --public-url / --out-dir integration-test/build integration-test/index.html && cp manifest.json dist/"
+    "build": "parcel build --no-minify content.js && parcel build --no-minify inpage.js && parcel build --no-minify --public-url / options.html && parcel build --no-minify --public-url / --out-dir integration-test/build integration-test/index.html && cp -R manifest.json icons/ dist/"
   },
   "repository": {
     "type": "git",
