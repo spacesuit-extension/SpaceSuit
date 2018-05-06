@@ -33,7 +33,7 @@ export default class SignToPersonalSignSubprovider extends Subprovider {
 
 // '\x19Ethereum Signed Message:\n'
 const prefixHex = '0x19457468657265756d205369676e6564204d6573736167653a0a'
-function stripPrefix(data) {
+export function stripPrefix(data) {
   if (data.startsWith(prefixHex)) {
     // Check if length of string matches reported length
     let n = 0

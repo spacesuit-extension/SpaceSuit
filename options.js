@@ -15,11 +15,14 @@ import List, {
   ListSubheader,
 } from 'material-ui/List'
 import Button from 'material-ui/Button'
+import IconButton from 'material-ui/IconButton'
 import Select from 'material-ui/Select'
 import Input, { InputLabel } from 'material-ui/Input'
 import TextField from 'material-ui/TextField'
 import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
+import Snackbar from 'material-ui/Snackbar'
+import CloseIcon from '@material-ui/icons/Close'
 import { withStyles } from 'material-ui/styles'
 import defaultConfig from './default-config.json'
 import networkConfigs from './network-configs.json'
@@ -167,6 +170,25 @@ class OptionsMenu extends React.Component {
         </List>
         <Button onClick={this.saveConfig.bind(this)} variant="raised" color="primary">Save</Button>
       </Paper>
+      <Snackbar
+          open={this.state.snackbarVisible}
+          autoHideDuration={10000}
+          onClose={this.closeSnackBar.bind(this)}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{this.state.snackbarMessage}</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.closeSnackBar.bind(this)}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
     </React.Fragment>
   }
 
@@ -206,6 +228,16 @@ class OptionsMenu extends React.Component {
       }
     }
     this.props.saveConfig(opts)
+    this.setState({
+      snackbarMessage: 'Options updated. You may need to reload open pages for settings to take effect',
+      snackbarVisible: true
+    })
+  }
+
+  closeSnackBar () {
+    this.setState({
+      snackbarVisible: false
+    })
   }
 }
 

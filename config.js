@@ -7,7 +7,6 @@ import InflightCacheSubprovider from 'web3-provider-engine/subproviders/inflight
 import SanitizingSubprovider from 'web3-provider-engine/subproviders/sanitizer'
 import LowerCaseAddressesSubprovider from './middleware/lowercase-addresses'
 import LoggingSubprovider from './middleware/logging'
-import EstimateGasSubprovider from './middleware/estimate-gas'
 import SignToPersonalSignSubprovider from './middleware/sign-to-personal-sign'
 import createLedgerSubprovider from "@ledgerhq/web3-subprovider"
 import TransportU2F from "@ledgerhq/hw-transport-u2f"
