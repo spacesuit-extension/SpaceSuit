@@ -31,7 +31,7 @@ export function configureEngine(engine, config) {
   engine.addProvider(subscriptionSubprovider)
   engine.addProvider(new InflightCacheSubprovider())
   if (config.useHacks) engine.addProvider(new LowerCaseAddressesSubprovider())
-  engine.addProvider(new EstimateGasSubprovider())
+  // engine.addProvider(new EstimateGasSubprovider())
   engine.addProvider(new SignToPersonalSignSubprovider({stripPrefix: config.useHacks}))
   engine.addProvider(
     createLedgerSubprovider(

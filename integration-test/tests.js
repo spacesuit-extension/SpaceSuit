@@ -205,7 +205,6 @@ window.addEventListener('load', async () =>  {
   await test('eth_getTransactionCount', [ganacheAccount, 'latest'], x => toNum(x) > 0)
   await test('eth_mining', [], false)
   await test('eth_protocolVersion', [], x => toNum(x) !== 0)
-  // eth_sendRawTransaction
   await test('eth_signTransaction', [{data: '0x', from: account}], validateTransaction(account))
   let myTxHash = await test('eth_sendTransaction', [{data: '0x', from: account, to: contractAddress}], x => /0x[0-9a-fA-F]+/.exec(x))
   await test('eth_getTransactionReceipt', [myTxHash], x => toNum(x.logs[0].topics[0]) === 255)

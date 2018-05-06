@@ -44,7 +44,7 @@ var blockchainServer = Ganache.server({
   network_id: 71,
   default_balance_ether: 1000000000000,
   port: 1969,
-  gas_price: 1000000000,
+  gasPrice: 1000000000,
   locked: true,
   unlocked_accounts: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   ws: false,
