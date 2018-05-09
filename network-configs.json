@@ -23,13 +23,13 @@
     "0xinfra (recommended)": {
       "rpcUrl": "https://etc-geth.0xinfra.com",
       "chainId": 61,
-      "path": "44'/61'/0'/0",
+      "path": "44'/60'/160720'/0",
       "infuraNetwork": null
     },
     "Epool MEW": {
       "rpcUrl": "https://mew.epool.io",
       "chainId": 61,
-      "path": "44'/61'/0'/0",
+      "path": "44'/60'/160720'/0",
       "infuraNetwork": null
     }
   },

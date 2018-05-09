@@ -1,7 +1,9 @@
 # SpaceSuit
 
 SpaceSuit is a Chrome extension that enables Ledger hardware wallet users to use
-their hardware wallets with Dapps (such as CryptoKitties, ForkDelta or Aethia).
+their hardware wallets with [Dapps](https://www.stateofthedapps.com) (such as
+[CryptoKitties](https://cryptokitties.co),
+[ForkDelta](https://forkdelta.github.io) or [Aethia](https://aethia.co)).
 We aim for bug-for-bug compatibility with MetaMask, so if a Dapp works with
 MetaMask but not SpaceSuit, that is a bug in SpaceSuit.
 
@@ -33,9 +35,14 @@ responsibility. Here are some tips to help you stay safe:
   they say they need it, they are lying.
 - Install an ad-blocker such as [uBlock Origin](https://github.com/gorhill/uBlock/).
   Malicious ads can attempt to steal from you.
+- Unplug your Ledger device when you're not using it.
 - If you've got multiple tabs open, and a request to sign a transaction appears
   on your Ledger device, it could have come from any of the tabs. If any of the
   tabs are suspect, close them before making a transaction.
+- If your ledger device is plugged in when you're in private browsing mode,
+  then it can be used to track you between private and non-private browsing,
+  and indeed across computers.
+- If it looks too good to be true, it probably is.
 
 
 ## Using SpaceSuit
@@ -85,7 +92,7 @@ support Ledger directly, but if you'd prefer to use MyCrypto with SpaceSuit,
 choose the option to send with "MetaMask/Mist" (in the current version), or
 with Web3 (in the latest Beta).
 
-### Is this somethng to do with MetaMask?
+### Is this something to do with MetaMask?
 
 This project is not endorsed by MetaMask in any way. It re-uses a lot of
 MetaMask code (don't worry, the MetaMask team allow this - both MetaMask and
@@ -95,10 +102,34 @@ who does not need hardware wallet support.
 
 I started writing this project after trying, and failing, to add Ledger support
 to MetaMask. This was not MetaMask's fault. Due to some very surprising
-security decisions in Chrome, it will be a big task to add Ledger support to
+security decisions in Chrome, it will be a complex task to add Ledger support to
 MetaMask without damaging their security. In the short term, it proved quicker
 to write a standalone extension for hardware wallet support. Longer term, we'll
 help out adding with hardware wallet support to MetaMask in any way we can.
+
+### Can I use SpaceSuit and MetaMask at the same time?
+
+No. You can have both installed at once, but only one can be enabled at once,
+since there is currently no standardised way to have a choice of multiple
+blockchain providers.
+
+### Are there any known compatibility issues?
+
+A small number of dapps that work with MetaMask do not work with SpaceSuit:
+- Any dapps that don't use SSL can't be supported.
+- There are performance issues on OasisDEX that make it unusable (we are
+  investigating this).
+- SpaceSuit uses a slightly different method to MetaMask to inject its code
+  into web pages. We don't know of any dapps that are affected, but in theory,
+  dapps with strict content security policies could refuse to allow SpaceSuit.
+- Ledger devices don't support signing arbitrary data, or signing typed data,
+  so dapps that depend on these (deprecate and experimental, respectively)
+  features, can't be made to work with SpaceSuit.
+
+### Do you offer a bug bounty?
+
+Much as I'd love to, I don't have any money to pay for one. If users are willing
+to donate to set one up, I'm happy to do so.
 
 ## Developing
 
@@ -119,3 +150,19 @@ node server.js
 
 Then configure SpaceSuit to use http://localhost:1969 as its RPC server, and
 navigate to https://localhost:4443.
+
+## Donate
+
+Donations welcome:
+
+- 0x758E53a86224F6511DBcabd9A364E21B4689653F (ETH)
+- 0xB276316Be42bb7030ff9483ef93Bc349A37132af (ETC)
+
+You may also want to donate to the following projects, that we rely on:
+
+- **Infura.io:** 0xC48E23C5F6e1eA0BaEf6530734edC3968f79Af2e (ETH)
+- **MyCrypto.com:** 0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520 (ETH)
+
+We couldn't find a donation address for MetaMask, but we'll add one if we get a
+pull request from one of the core team members (yes, we know who they are, so
+don't bother chancing it if you're not one of them).

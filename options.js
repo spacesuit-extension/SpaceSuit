@@ -142,7 +142,7 @@ class OptionsMenu extends React.Component {
                     value={this.state.path}
                     onChange={(e) => this.setState({path: e.target.value})}/>
                 <Button onClick={() => this.setState({path: "44'/60'/0'/0"})} color="primary">ETH</Button>{' '}
-                <Button onClick={() => this.setState({path: "44'/61'/0'/0"})} color="primary">ETC</Button>{' '}
+                <Button onClick={() => this.setState({path: "44'/60'/160720'/0"})} color="primary">ETC</Button>{' '}
                 <Button onClick={() => this.setState({path: "44'/1'/0'/0"})} color="secondary">Testnet</Button>
               </ListItem>
             </React.Fragment>

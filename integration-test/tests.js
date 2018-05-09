@@ -118,6 +118,21 @@ function testGetFilterLogs() {
   }, 'eth_getFilterLogs')
 }
 
+function testSubscribe() {
+  return report(async () => {
+    let subscriptionId = await call('eth_subscribe', ['logs', logSpec])
+    return new Promise((resolve, reject) => {
+      window.web3.currentProvider.on('data', (err, res) => {
+        if (err) reject(err)
+        else if (res.method === 'eth_subscription' && res.params.subscription === subscriptionId) {
+          if (res.params.result.address === contractAddress) resolve()
+          else reject(new Error('unexpected subscription result:' + JSON.stringify(res)))
+        }
+      })
+    })
+  }, 'eth_subscribe')
+}
+
 async function setUpAccount() {
   let accounts = await call('eth_accounts', [])
   // Transfer some ether to this account through back channel
@@ -217,5 +232,6 @@ window.addEventListener('load', async () =>  {
   await testFilter('eth_newBlockFilter', [], x => /0x[0-9a-fA-F]+/.exec(x))
   await testFilter('eth_newFilter', [logSpec], x => x.address === contractAddress)
   await testFilter('eth_newPendingTransactionFilter', [], x => /0x[0-9a-fA-F]+/.exec(x))
+  await testSubscribe()
   message('success', 'Finished running all tests!!')
 })
