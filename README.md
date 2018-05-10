@@ -1,9 +1,9 @@
 # SpaceSuit
 
 SpaceSuit is a Chrome extension that enables Ledger hardware wallet users to use
-their hardware wallets with [Dapps](https://www.stateofthedapps.com) (such as
+their hardware wallets with dapps (such as
 [CryptoKitties](https://cryptokitties.co),
-[ForkDelta](https://forkdelta.github.io) or [Aethia](https://aethia.co)).
+[ForkDelta](https://forkdelta.github.io) or [Aethia](https://aethia.co) - find more at [State Of The Dapps](https://www.stateofthedapps.com).).
 We aim for bug-for-bug compatibility with MetaMask, so if a Dapp works with
 MetaMask but not SpaceSuit, that is a bug in SpaceSuit.
 
@@ -46,6 +46,8 @@ responsibility. Here are some tips to help you stay safe:
 
 
 ## Using SpaceSuit
+
+[Get SpaceSuit from the Chrome Store](https://chrome.google.com/webstore/detail/spacesuit/ogonghphdgcdealjfknchhgiaabendkl)
 
 Before using SpaceSuit, make sure your Ledger device (Nano S and Blue should
 both work) is plugged in, has the Ethereum app open, and has both Browser
@@ -130,6 +132,11 @@ A small number of dapps that work with MetaMask do not work with SpaceSuit:
 
 Much as I'd love to, I don't have any money to pay for one. If users are willing
 to donate to set one up, I'm happy to do so.
+
+### I miss the Contracts tab of Parity Wallet. Is there anything similar?
+
+I recommend using [Truffle](http://truffleframework.com/) with
+[truffle-ledger-provider](https://www.npmjs.com/package/truffle-ledger-provider).
 
 ## Developing
 
