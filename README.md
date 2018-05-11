@@ -89,10 +89,11 @@ your bug report.
 
 ### How do I view my balance and transfer Ether and Tokens?
 
-We recommend [MyCrypto](https://www.mycrypto.com) for this. They already
-support Ledger directly, but if you'd prefer to use MyCrypto with SpaceSuit,
+We recommend [MyCrypto](https://www.mycrypto.com) or
+[MyEtherWallet](https://www.myetherwallet.com) for this. They both already
+support Ledger directly, but if you'd prefer to use SpaceSuit,
 choose the option to send with "MetaMask/Mist" (in the current version), or
-with Web3 (in the latest Beta).
+with Web3 (in the latest MyCrypto Beta).
 
 ### Is this something to do with MetaMask?
 
@@ -102,7 +103,7 @@ SpaceSuit are free and open source), but is not endorsed by them. However,
 we endorse MetaMask - their code is excellent, and we recommend it to anyone
 who does not need hardware wallet support.
 
-I started writing this project after trying, and failing, to add Ledger support
+We started writing this project after trying, and failing, to add Ledger support
 to MetaMask. This was not MetaMask's fault. Due to some very surprising
 security decisions in Chrome, it will be a complex task to add Ledger support to
 MetaMask without damaging their security. In the short term, it proved quicker
@@ -168,6 +169,7 @@ Donations welcome:
 You may also want to donate to the following projects, that we rely on:
 
 - **Infura.io:** 0xC48E23C5F6e1eA0BaEf6530734edC3968f79Af2e (ETH)
+- **MyEtherWallet.com:** 0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D (ETH)
 - **MyCrypto.com:** 0x4bbeEB066eD09B7AEd07bF39EEe0460DFa261520 (ETH)
 
 We couldn't find a donation address for MetaMask, but we'll add one if we get a
