@@ -2,7 +2,7 @@
   "presets": [
     ["env", {
       "targets": {
-        "browsers": ["last 2 Chrome versions"]
+        "browsers": ["Chrome >= 65"]
       }
     }],
     "react"

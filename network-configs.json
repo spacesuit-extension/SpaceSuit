@@ -7,6 +7,12 @@
       "rpcUrl": null
     },
     "MyCryptoAPI": {
+      "rpcUrl": "https://api.mycryptoapi.com/eth",
+      "chainId": 1,
+      "path": "44'/60'/0'/0",
+      "infuraNetwork": null
+    },
+    "MyEtherAPI": {
       "rpcUrl": "https://api.myetherapi.com/eth",
       "chainId": 1,
       "path": "44'/60'/0'/0",
@@ -40,8 +46,14 @@
       "path": "44'/1'/0'/0",
       "rpcUrl": null
     },
-    "MyEtherApi Ropsten": {
+    "MyEtherAPI Ropsten": {
       "rpcUrl": "https://api.myetherapi.com/rop",
+      "chainId": 3,
+      "path": "44'/1'/0'/0",
+      "infuraNetwork": null
+    },
+    "MyCryptoAPI Ropsten": {
+      "rpcUrl": "https://api.mycryptoapi.com/rop",
       "chainId": 3,
       "path": "44'/1'/0'/0",
       "infuraNetwork": null
