@@ -3,7 +3,8 @@
 SpaceSuit is a Chrome extension that enables Ledger hardware wallet users to use
 their hardware wallets with dapps (such as
 [CryptoKitties](https://cryptokitties.co),
-[ForkDelta](https://forkdelta.github.io) or [Aethia](https://aethia.co) - find more at [State Of The Dapps](https://www.stateofthedapps.com).).
+[ForkDelta](https://forkdelta.github.io) or [Aethia](https://aethia.co) - find
+more at [State Of The Dapps](https://www.stateofthedapps.com)).
 We aim for bug-for-bug compatibility with MetaMask, so if a Dapp works with
 MetaMask but not SpaceSuit, that is a bug in SpaceSuit.
 
