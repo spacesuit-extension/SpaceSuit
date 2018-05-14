@@ -23,7 +23,7 @@ responsibility. Here are some tips to help you stay safe:
 - The first time you use a dapp, get the URL from an autoritative source,
   such as the project's official Twitter or GitHub page. Don't trust links from
   your search engine, especially sponsored links. Then bookmark it, and only
-  even access the dapp via the bookmark.
+  ever access the dapp via the bookmark.
 - Do not push the button to confirm a transaction on your Ledger wallet unless
   you have checked that the transaction is the one you intended to make. If
   possible, confirm the recipient's address via another channel, such as the
@@ -59,7 +59,7 @@ know the addresses of the first 10 accounts on your device. Whenever the dapp
 wants to send a transaction, or sign a message, you will get a prompt on the
 screen of your Ledger device. There will be **no** prompt on your computer
 screen, so it is **vitally important** that you check that the details on the
-screen match the transaction you want to send to.
+screen match the transaction you want to send.
 
 ### Configuration
 
@@ -109,7 +109,7 @@ to MetaMask. This was not MetaMask's fault. Due to some very surprising
 security decisions in Chrome, it will be a complex task to add Ledger support to
 MetaMask without damaging their security. In the short term, it proved quicker
 to write a standalone extension for hardware wallet support. Longer term, we'll
-help out adding with hardware wallet support to MetaMask in any way we can.
+help out with adding hardware wallet support to MetaMask in any way we can.
 
 ### Can I use SpaceSuit and MetaMask at the same time?
 
@@ -127,7 +127,7 @@ A small number of dapps that work with MetaMask do not work with SpaceSuit:
   into web pages. We don't know of any dapps that are affected, but in theory,
   dapps with strict content security policies could refuse to allow SpaceSuit.
 - Ledger devices don't support signing arbitrary data, or signing typed data,
-  so dapps that depend on these (deprecate and experimental, respectively)
+  so dapps that depend on these (deprecated and experimental, respectively)
   features, can't be made to work with SpaceSuit.
 
 ### Do you offer a bug bounty?
