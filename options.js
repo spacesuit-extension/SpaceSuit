@@ -1,31 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import AppBar from 'material-ui/AppBar'
-import CssBaseline from 'material-ui/CssBaseline'
-import Toolbar from 'material-ui/Toolbar'
-import Typography from 'material-ui/Typography'
-import Radio, { RadioGroup } from 'material-ui/Radio'
-import Switch from 'material-ui/Switch'
-import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form'
-import List, {
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-  ListSubheader,
-} from 'material-ui/List'
-import Button from 'material-ui/Button'
-import IconButton from 'material-ui/IconButton'
-import Select from 'material-ui/Select'
-import Input, { InputLabel } from 'material-ui/Input'
-import TextField from 'material-ui/TextField'
-import Divider from 'material-ui/Divider'
-import Paper from 'material-ui/Paper'
-import Snackbar from 'material-ui/Snackbar'
+import AppBar from '@material-ui/core/AppBar'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Switch from '@material-ui/core/Switch'
+import FormControl from '@material-ui/core/FormControl'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import Select from '@material-ui/core/Select'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import TextField from '@material-ui/core/TextField'
+import Divider from '@material-ui/core/Divider'
+import Paper from '@material-ui/core/Paper'
+import Snackbar from '@material-ui/core/Snackbar'
 import CloseIcon from '@material-ui/icons/Close'
-import { withStyles } from 'material-ui/styles'
+import HomeIcon from '@material-ui/icons/Home'
+import { withStyles } from '@material-ui/core/styles'
 import defaultConfig from './default-config.json'
 import networkConfigs from './network-configs.json'
+import { homepage_url } from './manifest.json'
 
 require('babel-polyfill')
 
@@ -89,6 +88,11 @@ class OptionsMenu extends React.Component {
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
+          <a href={homepage_url}>
+            <IconButton>
+              <HomeIcon />
+            </IconButton>
+          </a>
           <Typography variant="title" color="inherit">
             SpaceSuit Options
           </Typography>
