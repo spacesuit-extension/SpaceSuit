@@ -176,3 +176,5 @@ You may also want to donate to the following projects, that we rely on:
 We couldn't find a donation address for MetaMask, but we'll add one if we get a
 pull request from one of the core team members (yes, we know who they are, so
 don't bother chancing it if you're not one of them).
+
+[Privacy Policy](privacy.md)
