@@ -1,6 +1,7 @@
 import sigUtil from 'eth-sig-util'
 import {toBuffer, bufferToHex} from 'ethereumjs-util'
 import EthTx from 'ethereumjs-tx'
+import {assert} from 'chai'
 
 const ganacheAccount = '0x5c2f8b40ac54b0ffdde3f74f6ec553701e6b5ae7'
 const contractAddress = '0x39164e6e0911c12d04ce50ae9381adcfa7a87db4'
@@ -133,6 +134,30 @@ function testSubscribe() {
   }, 'eth_subscribe')
 }
 
+async function testSyncCache() {
+  let provider = window.web3.currentProvider
+  delete window.sessionStorage.__SpaceSuit_sync_data_cache_accounts
+  delete window.sessionStorage.__SpaceSuit_sync_data_cache_coinbase
+
+  let coinbaseResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_coinbase', params: []})
+  let accountsResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_accounts', params: []})
+  assert.deepEqual(accountsResult.result, [])
+  assert.isNull(coinbaseResult.result)
+  let coinbase = await call('eth_coinbase', [])
+  coinbaseResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_coinbase', params: []})
+  assert.equal(coinbaseResult.result, coinbase)
+  accountsResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_accounts', params: []})
+  assert.equal(accountsResult.result[0], coinbase)
+
+  delete window.sessionStorage.__SpaceSuit_sync_data_cache_net_version
+
+  let netVersionResult = provider.send({id: 1, jsonrpc: '2.0', method: 'net_version', params: []})
+  assert.isNull(netVersionResult.result)
+  let netVersion = await call('net_version', [])
+  netVersionResult = provider.send({id: 1, jsonrpc: '2.0', method: 'net_version', params: []})
+  assert.equal(netVersionResult.result, netVersion)
+}
+
 async function setUpAccount() {
   let accounts = await call('eth_accounts', [])
   // Transfer some ether to this account through back channel
@@ -179,6 +204,7 @@ function toNum(x) {
 
 window.addEventListener('load', async () =>  {
   // Now run the tests!
+  await report(testSyncCache, 'sync-cache-provider')
   if (await call('net_version', []) == 71) {
     message('success', 'net_version')
   } else {

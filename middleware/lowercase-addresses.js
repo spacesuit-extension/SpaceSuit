@@ -11,15 +11,29 @@ export default class LowerCaseAddressesSubprovider extends Subprovider {
     super(opts)
   }
   handleRequest(payload, next, end) {
-    if (payload.method === 'eth_accounts') {
-      next((err, result, cb) => {
-        if (result != null) {
-          for (let i = 0; i < result.length; i++) {
-            result[i] = result[i].toLowerCase()
+    switch(payload.method) {
+      case 'eth_accounts':
+        next((err, result, cb) => {
+          if (result != null) {
+            for (let i = 0; i < result.length; i++) {
+              result[i] = result[i].toLowerCase()
+            }
           }
-        }
-        cb()
-      })
-    } else next()
+          cb()
+        })
+        return
+      case 'eth_coinbase':
+        this.emitPayload({
+          method: 'eth_accounts',
+          params: []
+        }, (err, res) => {
+          if (err) end(err)
+          else end(null, (res.result || [])[0] || null)
+        })
+        return
+      default:
+        next()
+        return
+    }
   }
 }

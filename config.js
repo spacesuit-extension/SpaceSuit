@@ -1,6 +1,7 @@
 import DefaultFixture from 'web3-provider-engine/subproviders/default-fixture'
 import DefaultBlockParameterSubprovider from './middleware/default-block-parameter'
 import NonceTrackerSubprovider from 'web3-provider-engine/subproviders/nonce-tracker'
+import SyncCacheSubprovider from './middleware/sync-cache'
 import CacheSubprovider from 'web3-provider-engine/subproviders/cache'
 import SubscriptionSubprovider from 'web3-provider-engine/subproviders/subscriptions'
 import InflightCacheSubprovider from 'web3-provider-engine/subproviders/inflight-cache'
@@ -22,6 +23,11 @@ export function configureEngine(engine, config) {
   engine.addProvider(new DefaultBlockParameterSubprovider())
   engine.addProvider(new NonceTrackerSubprovider())
   engine.addProvider(new SanitizingSubprovider())
+  if (config.useHacks) {
+    let syncCacheProvider = new SyncCacheSubprovider({cache: window.sessionStorage})
+    engine.addProvider(syncCacheProvider)
+    syncCacheProvider.patchSend(engine)
+  }
   engine.addProvider(new CacheSubprovider())
   let subscriptionSubprovider = new SubscriptionSubprovider({ pendingBlockTimeout: 5000 })
   subscriptionSubprovider.on('data', (err, notification) => {

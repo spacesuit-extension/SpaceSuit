@@ -142,14 +142,14 @@ I recommend using [Truffle](http://truffleframework.com/) with
 
 ## Developing
 
-You can install most of the dependencies with `npm install`, but we currently
+You can install most of the dependencies with `yarn install`, but we currently
 depend on the development version of `@ledgerhq/web3-subprovider`, which you
 can find in https://github.com/LedgerHQ/ledgerjs.
 
 You can build an unpacked extension (for development) with
-`npm run-script build`, and build a release build with `npm run-script dist`.
+`yarn run build`, and build a release build with `yarn run dist`.
 
-We have relatively few unit tests (which you can run with `npm test`), and rely
+We have relatively few unit tests (which you can run with `yarn test`), and rely
 more on integration tests. To run our integration tests:
 
 ```
