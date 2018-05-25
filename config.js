@@ -38,9 +38,10 @@ export function configureEngine(engine, config) {
   if (config.useHacks) engine.addProvider(new LowerCaseAddressesSubprovider())
   // engine.addProvider(new EstimateGasSubprovider())
   engine.addProvider(new SignToPersonalSignSubprovider({stripPrefix: config.useHacks}))
+  let transportPromise = TransportU2F.create()
   engine.addProvider(
     createLedgerSubprovider(
-      () => TransportU2F.create(), {
+      transportPromise, {
         accountsLength: 10,
         networkId: config.chainId,
         path: config.path

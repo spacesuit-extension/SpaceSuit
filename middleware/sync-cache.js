@@ -14,7 +14,7 @@ export default class SyncCacheSubprovider extends Subprovider {
     switch(payload.method) {
       case 'eth_accounts':
         next((err, result, cb) => {
-          if (!err) {
+          if (!err && result && result.length) {
             this.cache[this.prefix + 'accounts'] = JSON.stringify(result)
             this.cache[this.prefix + 'coinbase'] = result[0]
           }
@@ -54,14 +54,26 @@ export default class SyncCacheSubprovider extends Subprovider {
       }
       switch(payload.method) {
         case 'eth_accounts':
-          provider.sendAsync(payload, () => {}) // Call for side effect of caching
-          return result(JSON.parse(this.cache[this.prefix + 'accounts'] || '[]'))
+          let accountsJson = this.cache[this.prefix + 'accounts']
+          if (accountsJson) return result(JSON.parse(accountsJson))
+          else {
+            provider.sendAsync(payload, () => {}) // Call for side effect of caching
+            return result([])
+          }
         case 'eth_coinbase':
-          provider.sendAsync(payload, () => {}) // Call for side effect of caching
-          return result(this.cache[this.prefix + 'coinbase'] || null)
+          let coinbase = this.cache[this.prefix + 'coinbase']
+          if (coinbase) return result(coinbase)
+          else {
+            provider.sendAsync(payload, () => {}) // Call for side effect of caching
+            return result(null)
+          }
         case 'net_version':
-          provider.sendAsync(payload, () => {}) // Call for side effect of caching
-          return result(this.cache[this.prefix + 'net_version'] || null)
+          let netVersion = this.cache[this.prefix + 'net_version']
+          if (netVersion != null) return result(netVersion)
+          else {
+            provider.sendAsync(payload, () => {}) // Call for side effect of caching
+            return result(null)
+          }
         case 'eth_uninstallFilter':
           provider.sendAsync(payload, () => {})
           return result(true)

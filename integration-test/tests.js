@@ -155,7 +155,7 @@ async function testSyncCache() {
   assert.isNull(netVersionResult.result)
   let netVersion = await call('net_version', [])
   netVersionResult = provider.send({id: 1, jsonrpc: '2.0', method: 'net_version', params: []})
-  assert.equal(netVersionResult.result, netVersion)
+  assert.strictEqual(netVersionResult.result, netVersion)
 }
 
 async function setUpAccount() {

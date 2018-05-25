@@ -18,6 +18,11 @@ const configPromise = new Promise((resolve, reject) => {
         if (web3 === null) {
           web3 = new Web3(engine)
           engine.start()
+          // Initialise defaultAccount with coinbase
+          web3.eth.getCoinbase((err, res) => {
+            if (err) console.error(err)
+            if (res) web3.eth.defaultAccount = res
+          })
         }
         return web3
       }

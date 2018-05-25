@@ -143,8 +143,9 @@ I recommend using [Truffle](http://truffleframework.com/) with
 ## Developing
 
 You can install most of the dependencies with `yarn install`, but we currently
-depend on the development version of `@ledgerhq/web3-subprovider`, which you
-can find in https://github.com/LedgerHQ/ledgerjs.
+depend on a modified version of `ledgerjs`, clone
+https://github.com/jamespic/ledgerjs into a sibling drectory, and build it
+(with `yarn install && yarn run build`) before running `yarn install`.
 
 You can build an unpacked extension (for development) with
 `yarn run build`, and build a release build with `yarn run dist`.
