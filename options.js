@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import InputLabel from '@material-ui/core/InputLabel'
 import TextField from '@material-ui/core/TextField'
 import Divider from '@material-ui/core/Divider'
@@ -36,6 +37,9 @@ const styles = theme => ({
   }),
   optionGroup: {
     marginBottom: theme.spacing.unit
+  },
+  gasPrice: {
+    marginRight: theme.spacing.unit
   }
 })
 
@@ -70,6 +74,21 @@ async function guessChainId (rpcUrl, cb) {
   }
 }
 
+function gweiToWei(gweiText) {
+  if (gweiText == '') return null
+  else {
+    let parsed = parseFloat(gweiText)
+    if (isNaN(parsed)) return null
+    else return Math.floor(parseFloat(gweiText) * 1e9).toString()
+  }
+
+}
+
+function weiToGwei(wei) {
+  if (wei != null) return (parseInt(wei) / 1e9).toString()
+  else return null
+}
+
 class OptionsMenu extends React.Component {
   constructor ({config}) {
     super()
@@ -79,7 +98,9 @@ class OptionsMenu extends React.Component {
       chainId: config.chainId,
       path: config.path,
       debug: config.debug,
-      useHacks: config.useHacks
+      useHacks: config.useHacks,
+      minGasPrice: weiToGwei(config.minGasPrice),
+      maxGasPrice: weiToGwei(config.maxGasPrice)
     }
   }
 
@@ -154,6 +175,26 @@ class OptionsMenu extends React.Component {
           }
           <Divider />
           <ListItem>
+            <TextField
+                id="minGasPrice"
+                label="Min Gas Price"
+                className={this.props.classes.gasPrice}
+                value={this.state.minGasPrice}
+                onChange={(e) => this.setState({minGasPrice: e.target.value})}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">gwei</InputAdornment>
+                }}/>
+            <TextField
+                id="maxGasPrice"
+                label="Max Gas Price"
+                className={this.props.classes.gasPrice}
+                value={this.state.maxGasPrice}
+                onChange={(e) => this.setState({maxGasPrice: e.target.value})}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">gwei</InputAdornment>
+                }}/>
+          </ListItem>
+          <ListItem>
             <ListItemText primary="Use Hacks" />
             <ListItemSecondaryAction>
               <Switch
@@ -211,7 +252,9 @@ class OptionsMenu extends React.Component {
   saveConfig () {
     let opts = {
       debug: this.state.debug,
-      useHacks: this.state.useHacks
+      useHacks: this.state.useHacks,
+      minGasPrice: gweiToWei(this.state.minGasPrice),
+      maxGasPrice: gweiToWei(this.state.maxGasPrice)
     }
     if (this.state.network === 'Custom') {
       opts.rpcUrl = this.state.rpcUrl

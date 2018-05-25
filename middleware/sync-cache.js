@@ -5,7 +5,7 @@ import Subprovider from 'web3-provider-engine/subproviders/subprovider'
  * synchronous send, so we cache values for
  */
 export default class SyncCacheSubprovider extends Subprovider {
-  constructor(opts) {
+  constructor(opts = {}) {
     super(opts)
     this.cache = opts.cache || {}
     this.prefix = opts.prefix || '__SpaceSuit_sync_data_cache_'

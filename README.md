@@ -130,6 +130,17 @@ A small number of dapps that work with MetaMask do not work with SpaceSuit:
   so dapps that depend on these (deprecated and experimental, respectively)
   features, can't be made to work with SpaceSuit.
 
+### Can I play Ether Shrimp Farmer?
+
+Unfortunately yes, you can, as of version 0.2.0. Ether Shrimp Farmer is a buggy
+mess, and if you want to play it, you'll need to ignore at least one of the
+"Staying Safe Online" tips above, so you've got to ask yourself just how
+badly you want those Shrimp. But if you're sure you want to play it, use the
+[HTTPS version](https://ethershrimpfarm.net?ref=0x758e53a86224f6511dbcabd9a364e21b4689653f).
+But be aware that they don't currently have a valid SSL certificate, and
+if you ignore the certificate issues, and they get hacked, you'll get hacked
+too.
+
 ### Do you offer a bug bounty?
 
 Much as I'd love to, I don't have any money to pay for one. If users are willing

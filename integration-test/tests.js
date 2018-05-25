@@ -1,5 +1,5 @@
 import sigUtil from 'eth-sig-util'
-import {toBuffer, bufferToHex} from 'ethereumjs-util'
+import {toBuffer, bufferToHex, bufferToInt} from 'ethereumjs-util'
 import EthTx from 'ethereumjs-tx'
 import {assert} from 'chai'
 
@@ -158,6 +158,26 @@ async function testSyncCache() {
   assert.strictEqual(netVersionResult.result, netVersion)
 }
 
+async function testMinMaxGasPrice() {
+  try {
+    let coinbase = await call('eth_coinbase', [])
+    let {tx: minTx} = await call('eth_signTransaction', [{from: coinbase, data: '0x', gasPrice: '0x0'}])
+    let minGasPrice = bufferToInt(minTx.gasPrice)
+
+    if (minGasPrice > 0) message('skip', `Min gas price is ${minGasPrice / 1000000000}`)
+    else message('skip', 'No min gas price')
+
+    let {tx: maxTx} = await call('eth_signTransaction', [{from: coinbase, data: '0x', gasPrice: '0x38d7ea4c68000'}])
+    let maxGasPrice = bufferToInt(maxTx.gasPrice)
+
+    if (maxGasPrice < 1e15) message('skip', `Max gas price is ${maxGasPrice / 1000000000}`)
+    else message('skip', 'No max gas price')
+  } catch (e) {
+    console.error(e)
+    message('failure', e)
+  }
+}
+
 async function setUpAccount() {
   let accounts = await call('eth_accounts', [])
   // Transfer some ether to this account through back channel
@@ -220,7 +240,7 @@ window.addEventListener('load', async () =>  {
     return
   }
 
-  await test('web3_clientVersion', [], 'SpaceSuit/0.1.3/javascript')
+  await test('web3_clientVersion', [], 'SpaceSuit/0.2.0/javascript')
   await test('net_listening', [], true)
   await test('net_peerCount', [], (x) => x >= 0)
   await test('eth_blockNumber', [], (x) => toNum(x) > 0)
@@ -248,13 +268,12 @@ window.addEventListener('load', async () =>  {
   await test('eth_protocolVersion', [], x => toNum(x) !== 0)
   await test('eth_signTransaction', [{data: '0x', from: account}], validateTransaction(account))
   let myTxHash = await test('eth_sendTransaction', [{data: '0x', from: account, to: contractAddress}], x => /0x[0-9a-fA-F]+/.exec(x))
+  await testMinMaxGasPrice()
   await test('eth_getTransactionReceipt', [myTxHash], x => toNum(x.logs[0].topics[0]) === 255)
   await test('eth_syncing', [], false)
   await test('personal_sign', ['0x5363686f6f6c627573', account], x => /0x[0-9a-fA-F]+/.exec(x))
   await test('eth_sign', [account, '0x5363686f6f6c627573'], validatePersonalMessage('0x5363686f6f6c627573', account))
   await test('eth_sign', [account, '0x19457468657265756d205369676e6564204d6573736167653a0a395363686f6f6c627573'], validatePersonalMessage('0x5363686f6f6c627573', account))
-  // eth_subscribe
-  // eth_unsubscribe
   await testFilter('eth_newBlockFilter', [], x => /0x[0-9a-fA-F]+/.exec(x))
   await testFilter('eth_newFilter', [logSpec], x => x.address === contractAddress)
   await testFilter('eth_newPendingTransactionFilter', [], x => /0x[0-9a-fA-F]+/.exec(x))

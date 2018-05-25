@@ -3,5 +3,7 @@
   "path": "44'/60'/0'/0",
   "infuraNetwork": "mainnet",
   "useHacks": true,
-  "debug": false
+  "debug": false,
+  "minGasPrice": null,
+  "maxGasPrice": null
 }
