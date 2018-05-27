@@ -139,7 +139,7 @@ Unfortunately yes, you can, as of version 0.2.0. Ether Shrimp Farmer is a buggy
 mess, and if you want to play it, you'll need to ignore at least one of the
 "Staying Safe Online" tips above, so you've got to ask yourself just how
 badly you want those Shrimp. But if you're sure you want to play it, use the
-[HTTPS version](https://ethershrimpfarm.net?ref=0x758e53a86224f6511dbcabd9a364e21b4689653f).
+[HTTPS version (affiliate link)](https://ethershrimpfarm.net?ref=0x758e53a86224f6511dbcabd9a364e21b4689653f).
 But be aware that they don't currently have a valid SSL certificate, and
 if you ignore the certificate issues, and they get hacked, you'll get hacked
 too.
