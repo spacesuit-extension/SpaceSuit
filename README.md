@@ -147,8 +147,10 @@ mess, and if you want to play it, you'll need to ignore at least one of the
 badly you want those Shrimp. But if you're sure you want to play it, use the
 [HTTPS version (affiliate link)](https://ethershrimpfarm.net?ref=0x758e53a86224f6511dbcabd9a364e21b4689653f).
 But be aware that they don't currently have a valid SSL certificate, and
-if you ignore the certificate issues, and they get hacked, you'll get hacked
-too.
+if you ignore the certificate issues, this opens you up to being hacked.
+The most important thing you can do to avoid being hacked is to check that
+any transactions you make are going to the correct address, which is
+0x58AFF91f5b48245Bd83deeB2C7d31875f68b3f0D.
 
 ### Do you offer a bug bounty?
 
