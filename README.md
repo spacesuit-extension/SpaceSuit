@@ -78,8 +78,9 @@ usually the one we've found to be most reliable).
 There are also configs for the standard testnets (we don't yet have a
 configuration for Morden, because we haven't found a reliable public RPC
 server, but please let us know if you know of one), and you can choose a custom
-RPC server, such as a Parity or Geth node you are running locally, or a
-Ganache instance.
+RPC server, such as a Parity or Geth node you are running locally, a
+Ganache instance, or a
+[QuikNode (affiliate link)](https://www.quiknode.io?tap_a=22610-7a7484&tap_s=273177-1af4f0).
 
 You may notice the "Use Hacks" option. SpaceSuit has a goal of bug-for-bug
 compatibility with MetaMask. In some cases, to achieve this, we've had to
