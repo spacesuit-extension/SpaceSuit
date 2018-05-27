@@ -50,6 +50,9 @@ responsibility. Here are some tips to help you stay safe:
 
 [Get SpaceSuit from the Chrome Store](https://chrome.google.com/webstore/detail/spacesuit/ogonghphdgcdealjfknchhgiaabendkl)
 
+If you don't already have one,
+[get a Ledger hardware wallet (affiliate link)](https://www.ledgerwallet.com/r/dcb8).
+
 Before using SpaceSuit, make sure your Ledger device (Nano S and Blue should
 both work) is plugged in, has the Ethereum app open, and has both Browser
 Support and Contract Data enabled in the app settings.
