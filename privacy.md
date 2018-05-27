@@ -27,6 +27,10 @@ information about you:
 - SpaceSuit may make it easier for web sites you visit to track you, or to link
   information they hold about you to your actions and transactions on the
   blockchain.
+  
+We include a small number of affiliate links on our site. If you click these,
+then this will inform the sites that we link to that you clicked our affiliate
+link (which we may receive a commission for).
 
 Third Party Privacy Policies
 ----------------------------
