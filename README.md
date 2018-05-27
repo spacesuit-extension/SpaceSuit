@@ -43,6 +43,10 @@ responsibility. Here are some tips to help you stay safe:
 - If your ledger device is plugged in when you're in private browsing mode,
   then it can be used to track you between private and non-private browsing,
   and indeed across computers.
+- If you bought your Ledger from anywhere other than the
+  [official store (affiliate link)](https://www.ledgerwallet.com/r/dcb8),
+  upgrade to the latest firmware, then reset it to generate a new seed.
+  If it came with a seed, don't use it - you will lose your money.
 - If it looks too good to be true, it probably is.
 
 
