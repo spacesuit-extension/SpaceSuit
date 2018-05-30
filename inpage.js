@@ -1,5 +1,4 @@
 import ProviderEngine from "web3-provider-engine";
-import Web3 from 'web3'
 
 import {configureEngine} from './config'
 const engine = new ProviderEngine({ pollingInterval: 5000 }) // Can we easily make this configurable?
@@ -16,6 +15,8 @@ const configPromise = new Promise((resolve, reject) => {
     Object.defineProperty(window, 'web3', {
       get() {
         if (web3 === null) {
+          let Web3 = require('web3')
+
           web3 = new Web3(engine)
           engine.start()
           // Initialise defaultAccount with coinbase
@@ -25,27 +26,35 @@ const configPromise = new Promise((resolve, reject) => {
           })
         }
         return web3
-      }
+      },
+      enumerable: false
     })
   }
   return configureEngine(engine, config)
 })
 
-window.web3 = {
-  get currentProvider() {
+Object.defineProperty(window, 'web3', {
+  get() {
     configPromise.then(config => {
-      // Don't start engine until something asks for it, an it's configured
+      // Don't start engine until something asks for it, and it's configured
       engine.start()
     })
-    return engine
-  }
-}
-for (let prop of ['version', 'net', 'db', 'shh']) {
-  Object.defineProperty(window.web3, prop, {
-    get() {
-      throw new Error('This is a fake Web3 instance.' +
-      ' Check https://github.com/MetaMask/faq/blob/master/detecting_metamask.md' +
-      ' for the most portable way of embedding Web3.')
+
+    let web3 = {
+      currentProvider: engine
     }
-  })
-}
+
+    for (let prop of ['version', 'net', 'db', 'shh']) {
+      Object.defineProperty(window.web3, prop, {
+        get() {
+          throw new Error('This is a fake Web3 instance.' +
+          ' Check https://github.com/MetaMask/faq/blob/master/detecting_metamask.md' +
+          ' for the most portable way of embedding Web3.')
+        }
+      })
+    }
+
+    return web3
+  },
+  enumerable: false
+})
