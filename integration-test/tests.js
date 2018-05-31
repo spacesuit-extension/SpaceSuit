@@ -240,7 +240,7 @@ window.addEventListener('load', async () =>  {
     return
   }
 
-  await test('web3_clientVersion', [], 'SpaceSuit/0.2.0/javascript')
+  await test('web3_clientVersion', [], 'SpaceSuit/0.2.1/javascript')
   await test('net_listening', [], true)
   await test('net_peerCount', [], (x) => x >= 0)
   await test('eth_blockNumber', [], (x) => toNum(x) > 0)

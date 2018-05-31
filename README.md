@@ -148,13 +148,40 @@ to donate to set one up, I'm happy to do so.
 
 ### I miss the Contracts tab of Parity Wallet. Is there anything similar?
 
-I recommend using [Truffle](http://truffleframework.com/) with
-[truffle-ledger-provider](https://www.npmjs.com/package/truffle-ledger-provider).
+I recommend using [Truffle](http://truffleframework.com/) - `truffle console`
+is a great replacement. Here's a snippet adapted from my `truffle.js`:
+
+```
+module.exports = {
+  networks: {
+    ledger: {
+      provider: function () {
+        let createLedgerSubprovider = require("@ledgerhq/web3-subprovider").default
+        let TransportHID = require("@ledgerhq/hw-transport-node-hid").default
+        let ProviderEngine = require("web3-provider-engine")
+        let FetchSubprovider = require("web3-provider-engine/subproviders/fetch")
+        let NonceTrackerSubprovider = require("web3-provider-engine/subproviders/nonce-tracker")
+        let engine = new ProviderEngine();
+        let getTransport = () => {return TransportHID.create()}
+        let ledger = createLedgerSubprovider(getTransport, {accountsLength: 10})
+        engine.addProvider(ledger)
+        engine.addProvider(new NonceTrackerSubprovider())
+        engine.addProvider(new FetchSubprovider({rpcUrl: 'http://localhost:8545'}))
+        engine.start()
+        return engine
+      },
+      network_id: '1',
+      gasPrice: 2000000000,
+      from: '0x1234567890123456789012345678901234567890'
+    }
+  }
+}
+```
 
 ## Developing
 
 You can install most of the dependencies with `yarn install`, but we currently
-depend on a modified version of `ledgerjs`, clone
+depend on a modified version of `ledgerjs`. Clone
 https://github.com/jamespic/ledgerjs into a sibling drectory, and build it
 (with `yarn install && yarn run build`) before running `yarn install`.
 

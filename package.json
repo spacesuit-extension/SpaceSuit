@@ -1,6 +1,6 @@
 {
   "name": "spacesuit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A Chrome extension to enable Ledger devices to use Etherem Dapps",
   "main": "index.js",
   "scripts": {
@@ -31,8 +31,8 @@
     "@ledgerhq/hw-transport": "../ledgerjs/packages/hw-transport",
     "@ledgerhq/hw-transport-u2f": "../ledgerjs/packages/hw-transport-u2f",
     "@ledgerhq/web3-subprovider": "../ledgerjs/packages/web3-subprovider",
-    "@material-ui/core": "^1.0.0",
-    "@material-ui/icons": "^1.0.0",
+    "@material-ui/core": "^1.1.0",
+    "@material-ui/icons": "^1.1.0",
     "babel-polyfill": "^6.26.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

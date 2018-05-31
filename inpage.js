@@ -1,5 +1,4 @@
 import ProviderEngine from "web3-provider-engine";
-import Web3 from 'web3'
 
 import {configureEngine} from './config'
 const engine = new ProviderEngine({ pollingInterval: 5000 }) // Can we easily make this configurable?
@@ -16,6 +15,7 @@ const configPromise = new Promise((resolve, reject) => {
     Object.defineProperty(window, 'web3', {
       get() {
         if (web3 === null) {
+          let Web3 = require('web3')
           web3 = new Web3(engine)
           engine.start()
           // Initialise defaultAccount with coinbase
