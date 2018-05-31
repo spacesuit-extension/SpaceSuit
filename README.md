@@ -43,12 +43,19 @@ responsibility. Here are some tips to help you stay safe:
 - If your ledger device is plugged in when you're in private browsing mode,
   then it can be used to track you between private and non-private browsing,
   and indeed across computers.
+- If you bought your Ledger from anywhere other than the
+  [official store (affiliate link)](https://www.ledgerwallet.com/r/dcb8),
+  upgrade to the latest firmware, then reset it to generate a new seed.
+  If it came with a seed, don't use it - you will lose your money.
 - If it looks too good to be true, it probably is.
 
 
 ## Using SpaceSuit
 
 [Get SpaceSuit from the Chrome Store](https://chrome.google.com/webstore/detail/spacesuit/ogonghphdgcdealjfknchhgiaabendkl)
+
+If you don't already have one,
+[get a Ledger hardware wallet (affiliate link)](https://www.ledgerwallet.com/r/dcb8).
 
 Before using SpaceSuit, make sure your Ledger device (Nano S and Blue should
 both work) is plugged in, has the Ethereum app open, and has both Browser
@@ -71,8 +78,10 @@ usually the one we've found to be most reliable).
 There are also configs for the standard testnets (we don't yet have a
 configuration for Morden, because we haven't found a reliable public RPC
 server, but please let us know if you know of one), and you can choose a custom
-RPC server, such as a Parity or Geth node you are running locally, or a
-Ganache instance.
+RPC server, such as a [Parity](https://www.parity.io/) or
+[Geth](https://geth.ethereum.org/) node you are running locally, a
+[Ganache](http://truffleframework.com/ganache/) instance, or a
+[QuikNode (affiliate link)](https://www.quiknode.io?tap_a=22610-7a7484&tap_s=273177-1af4f0).
 
 You may notice the "Use Hacks" option. SpaceSuit has a goal of bug-for-bug
 compatibility with MetaMask. In some cases, to achieve this, we've had to
@@ -136,10 +145,12 @@ Unfortunately yes, you can, as of version 0.2.0. Ether Shrimp Farmer is a buggy
 mess, and if you want to play it, you'll need to ignore at least one of the
 "Staying Safe Online" tips above, so you've got to ask yourself just how
 badly you want those Shrimp. But if you're sure you want to play it, use the
-[HTTPS version](https://ethershrimpfarm.net?ref=0x758e53a86224f6511dbcabd9a364e21b4689653f).
+[HTTPS version (affiliate link)](https://ethershrimpfarm.net?ref=0x758e53a86224f6511dbcabd9a364e21b4689653f).
 But be aware that they don't currently have a valid SSL certificate, and
-if you ignore the certificate issues, and they get hacked, you'll get hacked
-too.
+if you ignore the certificate issues, this opens you up to being hacked.
+The most important thing you can do to avoid being hacked is to check that
+any transactions you make are going to the correct address, which is
+0x58AFF91f5b48245Bd83deeB2C7d31875f68b3f0D.
 
 ### Do you offer a bug bounty?
 
