@@ -55,6 +55,9 @@ export function configureEngine(engine, config) {
   } else {
     engine.addProvider(new InfuraSubprovider({network: config.infuraNetwork || 'mainnet'}))
   }
-  if (config.useHacks) engine.isMetaMask = true
+  if (config.useHacks) {
+    engine.isMetaMask = true
+    engine.isConnected = function isConnected() {return true}
+  }
   return engine
 }

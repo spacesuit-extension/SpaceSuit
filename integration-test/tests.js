@@ -158,6 +158,12 @@ async function testSyncCache() {
   assert.strictEqual(netVersionResult.result, netVersion)
 }
 
+async function testMetamaskisms() {
+  let provider = window.web3.currentProvider
+  assert(provider.isMetaMask)
+  assert(provider.isConnected())
+}
+
 async function testMinMaxGasPrice() {
   try {
     let coinbase = await call('eth_coinbase', [])
@@ -224,7 +230,6 @@ function toNum(x) {
 
 window.addEventListener('load', async () =>  {
   // Now run the tests!
-  await report(testSyncCache, 'sync-cache-provider')
   if (await call('net_version', []) == 71) {
     message('success', 'net_version')
   } else {
@@ -240,7 +245,9 @@ window.addEventListener('load', async () =>  {
     return
   }
 
-  await test('web3_clientVersion', [], 'SpaceSuit/0.2.1/javascript')
+  await report(testMetamaskisms, 'metamaskisms')
+  await report(testSyncCache, 'sync-cache-provider')
+  await test('web3_clientVersion', [], 'SpaceSuit/0.2.2/javascript')
   await test('net_listening', [], true)
   await test('net_peerCount', [], (x) => x >= 0)
   await test('eth_blockNumber', [], (x) => toNum(x) > 0)
