@@ -7,6 +7,7 @@ import SubscriptionSubprovider from 'web3-provider-engine/subproviders/subscript
 import InflightCacheSubprovider from 'web3-provider-engine/subproviders/inflight-cache'
 import SanitizingSubprovider from 'web3-provider-engine/subproviders/sanitizer'
 import LowerCaseAddressesSubprovider from './middleware/lowercase-addresses'
+import GasPaddingSubprovider from './middleware/gas-padding'
 import LoggingSubprovider from './middleware/logging'
 import SignToPersonalSignSubprovider from './middleware/sign-to-personal-sign'
 import MinMaxGasPriceSubprovider from './middleware/min-max-gas-price'
@@ -37,7 +38,7 @@ export function configureEngine(engine, config) {
   engine.addProvider(subscriptionSubprovider)
   engine.addProvider(new InflightCacheSubprovider())
   if (config.useHacks) engine.addProvider(new LowerCaseAddressesSubprovider())
-  // engine.addProvider(new EstimateGasSubprovider())
+  if (config.useHacks) engine.addProvider(new GasPaddingSubprovider())
   engine.addProvider(new SignToPersonalSignSubprovider({ stripPrefix: config.useHacks }))
   engine.addProvider(new MinMaxGasPriceSubprovider({ minGasPrice: config.minGasPrice, maxGasPrice: config.maxGasPrice }))
   let transportPromise = TransportU2F.create()
