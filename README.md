@@ -61,6 +61,10 @@ Before using SpaceSuit, make sure your Ledger device (Nano S and Blue should
 both work) is plugged in, has the Ethereum app open, and has both Browser
 Support and Contract Data enabled in the app settings.
 
+Go to the page of the dapp you want to use. If the dapp has a HTTP and a
+HTTPS version, make sure and use the HTTPS version - it's not possible to
+use SpaceSuit with HTTP sites.
+
 When you use a dapp, if your Ledger device is connected correctly, it should
 know the addresses of the first 10 accounts on your device. Whenever the dapp
 wants to send a transaction, or sign a message, you will get a prompt on the
