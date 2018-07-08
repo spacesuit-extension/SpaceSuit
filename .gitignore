@@ -62,4 +62,3 @@ package-lock.json
 dist/
 integration-test/build/
 dist.zip
-yarn.lock

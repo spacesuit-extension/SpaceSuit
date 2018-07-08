@@ -21,7 +21,7 @@ import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
 import Snackbar from '@material-ui/core/Snackbar'
 import CloseIcon from '@material-ui/icons/Close'
-import HomeIcon from '@material-ui/icons/Home'
+import HelpIcon from '@material-ui/icons/Help'
 import { withStyles } from '@material-ui/core/styles'
 import defaultConfig from './default-config.json'
 import networkConfigs from './network-configs.json'
@@ -109,14 +109,15 @@ class OptionsMenu extends React.Component {
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
-          <a href={homepage_url}>
-            <IconButton>
-              <HomeIcon />
-            </IconButton>
-          </a>
           <Typography variant="title" color="inherit">
             SpaceSuit Options
           </Typography>
+          <a href={homepage_url}
+              onClick={() => chrome.tabs.create({url: homepage_url})}>
+            <IconButton>
+              <HelpIcon />
+            </IconButton>
+          </a>
         </Toolbar>
       </AppBar>
       <Paper className={this.props.classes.root}>

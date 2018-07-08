@@ -5,7 +5,8 @@
   "description": "An extension to allow Ledger devices to use Ethereum Dapps",
   "manifest_version": 2,
   "permissions": [
-    "storage"
+    "storage",
+    "tabs"
   ],
   "content_scripts": [
     {
@@ -24,5 +25,9 @@
     "32": "icons/icon-32.png",
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon-32.png",
+    "default_popup": "options.html"
   }
 }
