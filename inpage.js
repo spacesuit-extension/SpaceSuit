@@ -25,6 +25,9 @@ const configPromise = new Promise((resolve, reject) => {
           })
         }
         return web3
+      },
+      set(value) {
+        web3 = value
       }
     })
   }
@@ -34,7 +37,7 @@ const configPromise = new Promise((resolve, reject) => {
 window.web3 = {
   get currentProvider() {
     configPromise.then(config => {
-      // Don't start engine until something asks for it, an it's configured
+      // Don't start engine until something asks for it, and it's configured
       engine.start()
     })
     return engine
