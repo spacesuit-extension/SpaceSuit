@@ -21,8 +21,10 @@ export default class SyncCacheSubprovider extends Subprovider {
       } else {
         next((err, res, cb) => {
           if (!err) {
-            for (let methodName in cachableValues(response)) {
-              this.cache[this.prefix + methodName] = cachableValues[methodName]
+            let cachable = cachableValues(res)
+            for (let methodName in cachable) {
+              let value = cachable[methodName]
+              if (value != null) this.cache[this.prefix + methodName] = JSON.stringify(value)
             }
           }
           cb()
@@ -43,15 +45,33 @@ export default class SyncCacheSubprovider extends Subprovider {
           return response(payload, JSON.parse(this.cache[this.prefix + method]))
         } else {
           provider.sendAsync(payload, () => {}) // Call purely for side effect of caching
-          return defaultValue()
+          return response(payload, defaultValue())
         }
       } else if (method === 'eth_uninstallFilter') {
         provider.sendAsync(payload, () => {})
-        return reponse(true)
+        return reponse(payload, true)
       } else {
         oldSend.call(provider, payload)
       }
     }
+  }
+
+  pollForChanges(coinbaseSubprovider, interval=60000) {
+    setInterval(() => {
+      coinbaseSubprovider.handleRequest({
+        method: 'eth_coinbase', params: [],
+        id: Math.random() * 1000000000000, jsonrpc: '2.0'
+      }, null, (err, res) => {
+        if (res && res !== this.cache[this.prefix + 'eth_coinbase']) {
+          delete this.cache[this.prefix + 'eth_coinbase']
+          delete this.cache[this.prefix + 'eth_accounts']
+          this.emitPayload({
+            method: 'eth_accounts', params: [],
+            id: Math.random() * 1000000000000, jsonrpc: '2.0'
+          }, () => {})
+        }
+      })
+    }, interval)
   }
 }
 

@@ -26,7 +26,7 @@ export function configureEngine(engine, config) {
   engine.addProvider(new NonceTrackerSubprovider())
   engine.addProvider(new SanitizingSubprovider())
   if (config.useHacks) {
-    let syncCacheProvider = new SyncCacheSubprovider({cache: window.sessionStorage})
+    var syncCacheProvider = new SyncCacheSubprovider({cache: window.sessionStorage})
     engine.addProvider(syncCacheProvider)
     syncCacheProvider.patchSend(engine)
   }
@@ -42,15 +42,15 @@ export function configureEngine(engine, config) {
   engine.addProvider(new SignToPersonalSignSubprovider({ stripPrefix: config.useHacks }))
   engine.addProvider(new MinMaxGasPriceSubprovider({ minGasPrice: config.minGasPrice, maxGasPrice: config.maxGasPrice }))
   let transportPromise = TransportU2F.create()
-  engine.addProvider(
-    createLedgerSubprovider(
-      transportPromise, {
-        accountsLength: 10,
-        networkId: config.chainId,
-        path: config.path
-      }
-    )
+  let ledgerProvider = createLedgerSubprovider(
+    transportPromise, {
+      accountsLength: 10,
+      networkId: config.chainId,
+      path: config.path
+    }
   )
+  engine.addProvider(ledgerProvider)
+  if (config.useHacks) syncCacheProvider.pollForChanges(ledgerProvider)
   if (config.rpcUrl != null) {
     engine.addProvider(new FetchSubprovider({ rpcUrl: config.rpcUrl }))
   } else {

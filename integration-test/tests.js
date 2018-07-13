@@ -136,8 +136,8 @@ function testSubscribe() {
 
 async function testSyncCache() {
   let provider = window.web3.currentProvider
-  delete window.sessionStorage.__SpaceSuit_sync_data_cache_accounts
-  delete window.sessionStorage.__SpaceSuit_sync_data_cache_coinbase
+  delete window.sessionStorage.__SpaceSuit_sync_data_cache_eth_accounts
+  delete window.sessionStorage.__SpaceSuit_sync_data_cache_eth_coinbase
 
   let coinbaseResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_coinbase', params: []})
   let accountsResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_accounts', params: []})
