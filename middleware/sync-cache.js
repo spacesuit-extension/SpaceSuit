@@ -56,7 +56,7 @@ export default class SyncCacheSubprovider extends Subprovider {
     }
   }
 
-  pollForChanges(coinbaseSubprovider, interval = 60000) {
+  pollForChanges(coinbaseSubprovider, interval = 90000) {
     setInterval(() => {
       coinbaseSubprovider.handleRequest(request('eth_coinbase'), null, (err, res) => {
         if (res && res !== this.cache[this.prefix + 'eth_coinbase']) {
