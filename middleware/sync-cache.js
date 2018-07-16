@@ -2,7 +2,9 @@ import Subprovider from 'web3-provider-engine/subproviders/subprovider'
 
 /*
  * Workaround for Ether Shrimp Farmer bug - Web3Provider doesn't implement
- * synchronous send, so we cache values for
+ * synchronous send, so we implement it for a handful or methods.
+ *
+ * We also implement aggressive caching of these
  */
 export default class SyncCacheSubprovider extends Subprovider {
   constructor(opts = {}) {
@@ -11,74 +13,99 @@ export default class SyncCacheSubprovider extends Subprovider {
     this.prefix = opts.prefix || '__SpaceSuit_sync_data_cache_'
   }
   handleRequest(payload, next, end) {
-    switch(payload.method) {
-      case 'eth_accounts':
-        next((err, result, cb) => {
-          if (!err && result && result.length) {
-            this.cache[this.prefix + 'accounts'] = JSON.stringify(result)
-            this.cache[this.prefix + 'coinbase'] = result[0]
-          }
-          cb()
-        })
-        break
-      case 'eth_coinbase':
-        next((err, result, cb) => {
+    let method = payload.method
+    if (method in handlers) {
+      let {cachableValues} = handlers[method]
+      if (this.prefix + method in this.cache) {
+        end(null, JSON.parse(this.cache[this.prefix + method]))
+      } else {
+        next((err, res, cb) => {
           if (!err) {
-            this.cache[this.prefix + 'coinbase'] = result
+            let cachable = cachableValues(res)
+            for (let methodName in cachable) {
+              let value = cachable[methodName]
+              if (value != null) this.cache[this.prefix + methodName] = JSON.stringify(value)
+            }
           }
           cb()
         })
-        break
-      case 'net_version':
-        next((err, result, cb) => {
-          if (!err) {
-            this.cache[this.prefix + 'net_version'] = result
-          }
-          cb()
-        })
-        break
-      default:
-        next()
+      }
+    } else {
+      next()
     }
   }
 
   patchSend(provider) {
     let oldSend = provider.send
     provider.send = (payload) => {
-      function result(value) {
-        return {
-          id: payload.id,
-          jsonrpc: payload.jsonrpc,
-          result: value
+      let method = payload.method
+      if (method in handlers) {
+        let {defaultValue, cachableValues} = handlers[method]
+        if (this.prefix + method in this.cache) {
+          return response(payload, JSON.parse(this.cache[this.prefix + method]))
+        } else {
+          provider.sendAsync(payload, () => {}) // Call purely for side effect of caching
+          return response(payload, defaultValue())
         }
+      } else if (method === 'eth_uninstallFilter') {
+        provider.sendAsync(payload, () => {})
+        return reponse(payload, true)
+      } else {
+        oldSend.call(provider, payload)
       }
-      switch(payload.method) {
-        case 'eth_accounts':
-          let accountsJson = this.cache[this.prefix + 'accounts']
-          if (accountsJson) return result(JSON.parse(accountsJson))
-          else {
-            provider.sendAsync(payload, () => {}) // Call for side effect of caching
-            return result([])
-          }
-        case 'eth_coinbase':
-          let coinbase = this.cache[this.prefix + 'coinbase']
-          if (coinbase) return result(coinbase)
-          else {
-            provider.sendAsync(payload, () => {}) // Call for side effect of caching
-            return result(null)
-          }
-        case 'net_version':
-          let netVersion = this.cache[this.prefix + 'net_version']
-          if (netVersion != null) return result(netVersion)
-          else {
-            provider.sendAsync(payload, () => {}) // Call for side effect of caching
-            return result(null)
-          }
-        case 'eth_uninstallFilter':
-          provider.sendAsync(payload, () => {})
-          return result(true)
-        default:
-          oldSend.call(provider, payload)
+    }
+  }
+
+  pollForChanges(coinbaseSubprovider, interval=60000) {
+    setInterval(() => {
+      coinbaseSubprovider.handleRequest({
+        method: 'eth_coinbase', params: [],
+        id: Math.random() * 1000000000000, jsonrpc: '2.0'
+      }, null, (err, res) => {
+        if (res && res !== this.cache[this.prefix + 'eth_coinbase']) {
+          delete this.cache[this.prefix + 'eth_coinbase']
+          delete this.cache[this.prefix + 'eth_accounts']
+          this.emitPayload({
+            method: 'eth_accounts', params: [],
+            id: Math.random() * 1000000000000, jsonrpc: '2.0'
+          }, () => {})
+        }
+      })
+    }, interval)
+  }
+}
+
+function response({id, jsonrpc}, result) {
+  return {id, jsonrpc, result}
+}
+
+const handlers = {
+  eth_accounts: {
+    defaultValue() { return [] },
+    cachableValues(result) {
+      if (result.length) {
+        return {
+          eth_accounts: result,
+          eth_coinbase: result[0]
+        }
+      } else {
+        return {}
+      }
+    }
+  },
+  eth_coinbase: {
+    defaultValue() { return null },
+    cachableValues(result) {
+      return {
+        eth_coinbase: result
+      }
+    }
+  },
+  net_version: {
+    defaultValue() { return null },
+    cachableValues(result) {
+      return {
+        net_version: result
       }
     }
   }
