@@ -56,27 +56,31 @@ export default class SyncCacheSubprovider extends Subprovider {
     }
   }
 
-  pollForChanges(coinbaseSubprovider, interval=60000) {
+  pollForChanges(coinbaseSubprovider, interval = 90000) {
     setInterval(() => {
-      coinbaseSubprovider.handleRequest({
-        method: 'eth_coinbase', params: [],
-        id: Math.random() * 1000000000000, jsonrpc: '2.0'
-      }, null, (err, res) => {
+      coinbaseSubprovider.handleRequest(request('eth_coinbase'), null, (err, res) => {
         if (res && res !== this.cache[this.prefix + 'eth_coinbase']) {
           delete this.cache[this.prefix + 'eth_coinbase']
           delete this.cache[this.prefix + 'eth_accounts']
-          this.emitPayload({
-            method: 'eth_accounts', params: [],
-            id: Math.random() * 1000000000000, jsonrpc: '2.0'
-          }, () => {})
+          this.emitPayload(request('eth_accounts'), () => {})
         }
       })
+      // Invalidate cached net version, and request again
+      delete this.cache[this.prefix + 'net_version']
+      this.emitPayload(request('net_version'), () => {})
     }, interval)
   }
 }
 
 function response({id, jsonrpc}, result) {
   return {id, jsonrpc, result}
+}
+
+function request(method) {
+  return {
+    method, params: Array.prototype.slice.call(arguments, 1),
+    id: Math.random() * 1000000000000, jsonrpc: '2.0'
+  }
 }
 
 const handlers = {
