@@ -247,7 +247,7 @@ window.addEventListener('load', async () =>  {
   }
 
   await report(testMetamaskisms, 'metamaskisms')
-  await test('web3_clientVersion', [], 'SpaceSuit/0.2.5/javascript')
+  await test('web3_clientVersion', [], 'SpaceSuit/0.3.0/javascript')
   await test('net_listening', [], true)
   await test('net_peerCount', [], (x) => x >= 0)
   await test('eth_blockNumber', [], (x) => toNum(x) > 0)

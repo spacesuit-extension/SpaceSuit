@@ -11,6 +11,7 @@ export default class SyncCacheSubprovider extends Subprovider {
     super(opts)
     this.cache = opts.cache || {}
     this.prefix = opts.prefix || '__SpaceSuit_sync_data_cache_'
+    this.pendingCalls = {}
   }
   handleRequest(payload, next, end) {
     let method = payload.method
@@ -18,16 +19,27 @@ export default class SyncCacheSubprovider extends Subprovider {
       let {cachableValues} = handlers[method]
       if (this.prefix + method in this.cache) {
         end(null, JSON.parse(this.cache[this.prefix + method]))
+      } else if (method in this.pendingCalls) {
+        this.pendingCalls[method].then(
+          (res) => end(null, res),
+          (err) => end(err)
+        )
       } else {
-        next((err, res, cb) => {
-          if (!err) {
-            let cachable = cachableValues(res)
-            for (let methodName in cachable) {
-              let value = cachable[methodName]
-              if (value != null) this.cache[this.prefix + methodName] = JSON.stringify(value)
+        this.pendingCalls[method] = new Promise((resolve, reject) => {
+          next((err, res, cb) => {
+            if (err) reject(err)
+            else {
+              resolve(res)
+              delete this.pendingCalls[method]
+
+              let cachable = cachableValues(res)
+              for (let methodName in cachable) {
+                let value = cachable[methodName]
+                if (value != null) this.cache[this.prefix + methodName] = JSON.stringify(value)
+              }
             }
-          }
-          cb()
+            cb()
+          })
         })
       }
     } else {

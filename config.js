@@ -50,7 +50,11 @@ export function configureEngine(engine, config) {
     }
   )
   engine.addProvider(ledgerProvider)
-  if (config.useHacks) syncCacheProvider.pollForChanges(ledgerProvider)
+  if (config.useHacks) {
+    engine._ready.await(() => {
+      syncCacheProvider.pollForChanges(ledgerProvider)
+    })
+  }
   if (config.rpcUrl != null) {
     engine.addProvider(new FetchSubprovider({ rpcUrl: config.rpcUrl }))
   } else {
