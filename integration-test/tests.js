@@ -230,7 +230,6 @@ function toNum(x) {
 
 window.addEventListener('load', async () =>  {
   // Now run the tests!
-  await report(testSyncCache, 'sync-cache-provider')
   if (await call('net_version', []) == 71) {
     message('success', 'net_version')
   } else {
@@ -247,7 +246,8 @@ window.addEventListener('load', async () =>  {
   }
 
   await report(testMetamaskisms, 'metamaskisms')
-  await test('web3_clientVersion', [], 'SpaceSuit/0.3.0/javascript')
+  await report(testSyncCache, 'sync-cache-provider')
+  await test('web3_clientVersion', [], 'SpaceSuit/0.2.7/javascript')
   await test('net_listening', [], true)
   await test('net_peerCount', [], (x) => x >= 0)
   await test('eth_blockNumber', [], (x) => toNum(x) > 0)

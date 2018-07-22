@@ -26,7 +26,7 @@ export function configureEngine(engine, config) {
   engine.addProvider(new NonceTrackerSubprovider())
   engine.addProvider(new SanitizingSubprovider())
   if (config.useHacks) {
-    var syncCacheProvider = new SyncCacheSubprovider({cache: window.sessionStorage})
+    var syncCacheProvider = new SyncCacheSubprovider({cache: window.sessionStorage, lastChanged: config.lastChanged})
     engine.addProvider(syncCacheProvider)
     syncCacheProvider.patchSend(engine)
   }

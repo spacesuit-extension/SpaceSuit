@@ -4,12 +4,14 @@ import Subprovider from 'web3-provider-engine/subproviders/subprovider'
  * Workaround for Ether Shrimp Farmer bug - Web3Provider doesn't implement
  * synchronous send, so we implement it for a handful or methods.
  *
- * We also implement aggressive caching of these
+ * We also implement aggressive caching of these values to work around a race
+ * condition in MakerDAO Dai dashboard.
  */
 export default class SyncCacheSubprovider extends Subprovider {
   constructor(opts = {}) {
     super(opts)
     this.cache = opts.cache || {}
+    this.lastChanged = opts.lastChanged || 0
     this.prefix = opts.prefix || '__SpaceSuit_sync_data_cache_'
     this.pendingCalls = {}
   }
@@ -69,18 +71,32 @@ export default class SyncCacheSubprovider extends Subprovider {
   }
 
   pollForChanges(coinbaseSubprovider, interval = 90000) {
-    setInterval(() => {
-      coinbaseSubprovider.handleRequest(request('eth_coinbase'), null, (err, res) => {
-        if (res && res !== this.cache[this.prefix + 'eth_coinbase']) {
-          delete this.cache[this.prefix + 'eth_coinbase']
-          delete this.cache[this.prefix + 'eth_accounts']
-          this.emitPayload(request('eth_accounts'), () => {})
-        }
-      })
+    let lastPolled = this.cache[this.prefix + 'lastPolled']
+    let pollWait = 0
+    if (this.lastChanged > lastPolled) {
       // Invalidate cached net version, and request again
       delete this.cache[this.prefix + 'net_version']
       this.emitPayload(request('net_version'), () => {})
-    }, interval)
+    } else {
+      pollWait = Math.min(interval, +lastPolled + interval - new Date)
+    }
+    setTimeout(() => {
+      this._doPoll(coinbaseSubprovider)
+      setInterval(() => {
+        this._doPoll(coinbaseSubprovider)
+      }, interval)
+    }, pollWait)
+  }
+
+  _doPoll(coinbaseSubprovider) {
+    this.cache[this.prefix + 'lastPolled'] = +new Date
+    coinbaseSubprovider.handleRequest(request('eth_coinbase'), null, (err, res) => {
+      if (res && res !== this.cache[this.prefix + 'eth_coinbase']) {
+        delete this.cache[this.prefix + 'eth_coinbase']
+        delete this.cache[this.prefix + 'eth_accounts']
+        this.emitPayload(request('eth_accounts'), () => {})
+      }
+    })
   }
 }
 

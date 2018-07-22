@@ -1,11 +1,11 @@
 {
   "name": "spacesuit",
-  "version": "0.3.0",
+  "version": "0.2.7",
   "description": "A Chrome extension to enable Ledger devices to use Etherem Dapps",
   "main": "index.js",
   "scripts": {
     "test": "mocha --require babel-register",
-    "build": "parcel build --no-minify content.js && parcel build --no-minify inpage.js && parcel build --no-minify --public-url / options.html && parcel build --no-minify --public-url / --out-dir integration-test/build integration-test/index.html && cp -R manifest.json icons/ dist/",
+    "build": "node build.js",
     "clean": "rm dist.zip; rm -rd dist; rm -rd integration-test/build; true",
     "dist": "npm run-script clean && npm run-script build && cd dist && zip -r ../dist.zip ."
   },
@@ -52,6 +52,7 @@
     "ganache-core": "^2.1.5",
     "memdown": "^3.0.0",
     "mocha": "^5.2.0",
+    "ncp": "^2.0.0",
     "parcel-bundler": "~1.8.1",
     "serve-static": "^1.13.2",
     "typeface-megrim": "0.0.54"

@@ -255,7 +255,8 @@ class OptionsMenu extends React.Component {
       debug: this.state.debug,
       useHacks: this.state.useHacks,
       minGasPrice: gweiToWei(this.state.minGasPrice),
-      maxGasPrice: gweiToWei(this.state.maxGasPrice)
+      maxGasPrice: gweiToWei(this.state.maxGasPrice),
+      lastChanged: +new Date()
     }
     if (this.state.network === 'Custom') {
       opts.rpcUrl = this.state.rpcUrl
