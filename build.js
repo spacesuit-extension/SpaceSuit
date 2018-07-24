@@ -18,9 +18,11 @@ function bundle(file, options = {}) {
 }
 
 async function build () {
-  await bundle('inpage.js')
-  let inPageScript = fs.readFileSync(Path.join(__dirname, 'dist/inpage.js'), 'utf-8')
-  fs.writeFileSync(Path.join(__dirname, 'dist/inpage.json'), JSON.stringify(inPageScript))
+  await bundle('inpage.js', {
+    outDir: 'build'
+  })
+  let inPageScript = fs.readFileSync(Path.join(__dirname, 'build/inpage.js'), 'utf-8')
+  fs.writeFileSync(Path.join(__dirname, 'build/inpage.json'), JSON.stringify(inPageScript))
   await bundle('content.js')
   await bundle('options.html')
   await bundle('integration-test/index.html', {
