@@ -107,7 +107,7 @@ function response({id, jsonrpc}, result) {
 function request(method) {
   return {
     method, params: Array.prototype.slice.call(arguments, 1),
-    id: Math.random() * 1000000000000, jsonrpc: '2.0'
+    id: Math.floor(Math.random() * 1000000000000), jsonrpc: '2.0'
   }
 }
 

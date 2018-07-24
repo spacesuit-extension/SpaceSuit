@@ -1,6 +1,6 @@
 {
   "name": "spacesuit",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "A Chrome extension to enable Ledger devices to use Etherem Dapps",
   "main": "index.js",
   "scripts": {

@@ -35,7 +35,7 @@ export default class GasPaddingSubprovider extends Subprovider {
       return new Promise((resolve, reject) => {
         var params = Array.prototype.slice.call(arguments, 1)
         self.emitPayload({
-          method, params, id: Math.random() * 1000000, jsonrpc: '2.0'
+          method, params, id: Math.floor(Math.random() * 1000000000000), jsonrpc: '2.0'
         }, (err, res) => {
           if (err) reject(err)
           else resolve(res.result)

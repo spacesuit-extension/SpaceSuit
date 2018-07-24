@@ -1,6 +1,6 @@
 {
   "name": "SpaceSuit",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "homepage_url": "https://github.com/jamespic/SpaceSuit#readme",
   "description": "An extension to allow Ledger devices to use Ethereum Dapps",
   "manifest_version": 2,
@@ -11,7 +11,8 @@
     {
       "matches": ["https://*/*"],
       "run_at": "document_start",
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "all_frames": true
     }
   ],
   "web_accessible_resources": [
