@@ -134,8 +134,10 @@ blockchain providers.
 
 A small number of dapps that work with MetaMask do not work with SpaceSuit:
 - Any dapps that don't use SSL can't be supported.
-- There are performance issues on OasisDEX that make it unusable (we are
-  investigating this).
+- Due to a race condition in [Dai Dashboard](https://dai.makerdao.com), that
+  we've only partially been able to work around, balances will show as
+  "Loading..." the first time you visit the page. If you press F5 once it
+  has loaded, you should see your balances and everything should work normally.
 - SpaceSuit uses a slightly different method to MetaMask to inject its code
   into web pages. We don't know of any dapps that are affected, but in theory,
   dapps with strict content security policies could refuse to allow SpaceSuit.
