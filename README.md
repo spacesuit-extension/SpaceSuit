@@ -195,6 +195,26 @@ module.exports = {
 }
 ```
 
+### How do I access other accounts on my Ledger? I can only get to the first one!
+
+Ledger exposes your first 10 Ethereum addresses to dApps, and theoretically
+dApps could use any of them to send transactions. In practice, most dApps are
+built based on Metamask, and only pay attention to the first address in the
+list.
+
+Due to some technical challenges stemming from Chrome's security model,
+SpaceSuit can't show you a list of your addresses and let you pick one to be
+the first address. There is, however, a workaround that lets you change which
+address is listed first.
+
+In the SpaceSuit settings, Open the Network dropdown and pick Custom.
+
+In RPC URL, put: `https://api.mycryptoapi.com/eth`
+
+In "Derivation Path", put: `m/44'/60'/0'/N` replacing "N" with the index of the
+Ethereum address you want to use. The first address is N=0, and you can access
+other addresses on your Ledger by increasing N.
+
 ## Developing
 
 You can install most of the dependencies with `yarn install`, but we currently
