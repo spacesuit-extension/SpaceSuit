@@ -29,11 +29,10 @@ export default class SyncCacheSubprovider extends Subprovider {
       } else {
         this.pendingCalls[method] = new Promise((resolve, reject) => {
           next((err, res, cb) => {
+            delete this.pendingCalls[method]
             if (err) reject(err)
             else {
               resolve(res)
-              delete this.pendingCalls[method]
-
               let cachable = cachableValues(res)
               for (let methodName in cachable) {
                 let value = cachable[methodName]
@@ -44,6 +43,21 @@ export default class SyncCacheSubprovider extends Subprovider {
           })
         })
       }
+    } else if (method === 'eth_getBlockByNumber' && 'eth_accounts' in this.pendingCalls) {
+      /* Hack to workaround https://github.com/makerdao/dai-explorer/issues/25.
+       * If there is an outstanding `eth_accounts` request,
+       * delay `eth_getBlockByNumber` request by up to 10 seconds,
+       * so that the `eth_accounts` call wins the race.
+       */
+       let resumed = false
+       function resume () {
+         if (!resumed) {
+           resumed = true
+           next()
+         }
+       }
+       this.pendingCalls.eth_accounts.then(resume, resume)
+       setTimeout(resume, 10000)
     } else {
       next()
     }

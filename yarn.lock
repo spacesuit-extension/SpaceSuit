@@ -9,15 +9,28 @@
     core-js "^2.5.7"
     regenerator-runtime "^0.12.0"
 
-"@ledgerhq/hw-app-eth@../ledgerjs/packages/hw-app-eth", "@ledgerhq/hw-app-eth@^4.19.0":
+"@ledgerhq/hw-app-eth@../ledgerjs/packages/hw-app-eth":
   version "4.19.0"
   dependencies:
     "@ledgerhq/hw-transport" "^4.19.0"
 
-"@ledgerhq/hw-transport-u2f@../ledgerjs/packages/hw-transport-u2f", "@ledgerhq/hw-transport-u2f@^4.20.0":
+"@ledgerhq/hw-app-eth@^4.19.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.21.0.tgz#2d8bfbe5f09b92e8d6951ae685036d9d5aea96ff"
+  dependencies:
+    "@ledgerhq/hw-transport" "^4.21.0"
+
+"@ledgerhq/hw-transport-u2f@../ledgerjs/packages/hw-transport-u2f":
   version "4.20.0"
   dependencies:
     "@ledgerhq/hw-transport" "^4.19.0"
+    u2f-api "0.2.7"
+
+"@ledgerhq/hw-transport-u2f@^4.20.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.21.0.tgz#85695d7e853a5c21af7e7dcb0ce3919f2b65cdd9"
+  dependencies:
+    "@ledgerhq/hw-transport" "^4.21.0"
     u2f-api "0.2.7"
 
 "@ledgerhq/hw-transport@../ledgerjs/packages/hw-transport":
@@ -32,6 +45,12 @@
   dependencies:
     events "^2.0.0"
 
+"@ledgerhq/hw-transport@^4.21.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.21.0.tgz#50f85cfe115ba3f9d5bf94755c701e927175794f"
+  dependencies:
+    events "^2.0.0"
+
 "@ledgerhq/web3-subprovider@../ledgerjs/packages/web3-subprovider":
   version "4.20.0"
   dependencies:
@@ -42,9 +61,9 @@
     strip-hex-prefix "^1.0.0"
     web3-provider-engine "^14.0.2"
 
-"@material-ui/core@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-1.4.0.tgz#e535fef84576b096c46e1fb7d6c4c61895155fd3"
+"@material-ui/core@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-1.4.1.tgz#fb041b95a99a8da0fee87e2953b4107df0120e92"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.42"
     "@types/jss" "^9.5.3"
@@ -2353,9 +2372,16 @@ ethereumjs-tx@1.3.4:
     ethereum-common "^0.0.18"
     ethereumjs-util "^5.0.0"
 
-ethereumjs-tx@^1.0.0, ethereumjs-tx@^1.1.1, ethereumjs-tx@^1.2.0, ethereumjs-tx@^1.2.2, ethereumjs-tx@^1.3.3, ethereumjs-tx@^1.3.6:
+ethereumjs-tx@^1.0.0, ethereumjs-tx@^1.1.1, ethereumjs-tx@^1.2.0, ethereumjs-tx@^1.2.2, ethereumjs-tx@^1.3.3:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/ethereumjs-tx/-/ethereumjs-tx-1.3.6.tgz#d581c1703b7b250b2e54892031626534d53e0a79"
+  dependencies:
+    ethereum-common "^0.0.18"
+    ethereumjs-util "^5.0.0"
+
+ethereumjs-tx@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/ethereumjs-tx/-/ethereumjs-tx-1.3.7.tgz#88323a2d875b10549b8347e09f4862b546f3d89a"
   dependencies:
     ethereum-common "^0.0.18"
     ethereumjs-util "^5.0.0"

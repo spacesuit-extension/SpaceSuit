@@ -5,7 +5,7 @@ const Path = require('path')
 
 // parcel build --no-minify --public-url / --out-dir integration-test/build integration-test/index.html && cp -R manifest.json icons/ dist/
 
-function bundle(file, options = {}) {
+async function bundle(file, options = {}) {
   options = Object.assign({
     minify: false,
     publicUrl: '/',
@@ -14,7 +14,10 @@ function bundle(file, options = {}) {
     // cache: false // Causes more trouble than it saves
   }, options)
   let bundler = new Bundler(Path.join(__dirname, file), options)
-  return bundler.bundle()
+  bundler.on('buildError', () => {process.exit(1)})
+  let bundled = await bundler.bundle()
+  if (!bundled) throw new Error('Bundling failure')
+  return bundled
 }
 
 async function build () {
