@@ -136,8 +136,8 @@ function testSubscribe() {
 
 async function testSyncCache() {
   let provider = window.web3.currentProvider
-  delete window.sessionStorage.__SpaceSuit_sync_data_cache_eth_accounts
-  delete window.sessionStorage.__SpaceSuit_sync_data_cache_eth_coinbase
+  delete window.localStorage.__SpaceSuit_sync_data_cache_eth_accounts
+  delete window.localStorage.__SpaceSuit_sync_data_cache_eth_coinbase
 
   let coinbaseResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_coinbase', params: []})
   let accountsResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_accounts', params: []})
@@ -149,7 +149,7 @@ async function testSyncCache() {
   accountsResult = provider.send({id: 1, jsonrpc: '2.0', method: 'eth_accounts', params: []})
   assert.equal(accountsResult.result[0], coinbase)
 
-  delete window.sessionStorage.__SpaceSuit_sync_data_cache_net_version
+  delete window.localStorage.__SpaceSuit_sync_data_cache_net_version
 
   let netVersionResult = provider.send({id: 1, jsonrpc: '2.0', method: 'net_version', params: []})
   assert.isNull(netVersionResult.result)
@@ -247,7 +247,7 @@ window.addEventListener('load', async () =>  {
 
   await report(testMetamaskisms, 'metamaskisms')
   await report(testSyncCache, 'sync-cache-provider')
-  await test('web3_clientVersion', [], 'SpaceSuit/0.2.8/javascript')
+  await test('web3_clientVersion', [], 'SpaceSuit/0.3.0/javascript')
   await test('net_listening', [], true)
   await test('net_peerCount', [], (x) => x >= 0)
   await test('eth_blockNumber', [], (x) => toNum(x) > 0)

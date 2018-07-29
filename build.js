@@ -11,7 +11,7 @@ async function bundle(file, options = {}) {
     publicUrl: '/',
     outDir: 'dist',
     watch: false,
-    // cache: false // Causes more trouble than it saves
+    cache: false // Causes more trouble than it saves
   }, options)
   let bundler = new Bundler(Path.join(__dirname, file), options)
   bundler.on('buildError', () => {process.exit(1)})

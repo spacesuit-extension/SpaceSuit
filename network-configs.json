@@ -1,79 +1,66 @@
 {
   "Ethereum (ETH)": {
     "Infura (Recommended)": {
-      "infuraNetwork": "mainnet",
       "chainId": 1,
-      "path": "44'/60'/0'/0",
-      "rpcUrl": null
+      "pathType": "ETH",
+      "rpcUrl": "infura://mainnet"
     },
     "MyCryptoAPI": {
       "rpcUrl": "https://api.mycryptoapi.com/eth",
       "chainId": 1,
-      "path": "44'/60'/0'/0",
-      "infuraNetwork": null
+      "pathType": "ETH"
     },
     "MyEtherAPI": {
       "rpcUrl": "https://api.myetherapi.com/eth",
       "chainId": 1,
-      "path": "44'/60'/0'/0",
-      "infuraNetwork": null
+      "pathType": "ETH"
     },
     "Blockscale": {
       "rpcUrl": "https://api.dev.blockscale.net/dev/parity",
       "chainId": 1,
-      "path": "44'/60'/0'/0",
-      "infuraNetwork": null
+      "pathType": "ETH"
     }
   },
   "Ethereum Classic (ETC)": {
     "0xinfra (recommended)": {
       "rpcUrl": "https://etc-geth.0xinfra.com",
       "chainId": 61,
-      "path": "44'/60'/160720'/0",
-      "infuraNetwork": null
+      "pathType": "ETC"
     },
     "Epool MEW": {
       "rpcUrl": "https://mew.epool.io",
       "chainId": 61,
-      "path": "44'/60'/160720'/0",
-      "infuraNetwork": null
+      "pathType": "ETC"
     }
   },
   "Testnet": {
     "Infura Ropsten": {
-      "infuraNetwork": "ropsten",
       "chainId": 3,
-      "path": "44'/1'/0'/0",
-      "rpcUrl": null
+      "pathType": "TEST",
+      "rpcUrl": "infura://ropsten"
     },
     "MyEtherAPI Ropsten": {
       "rpcUrl": "https://api.myetherapi.com/rop",
       "chainId": 3,
-      "path": "44'/1'/0'/0",
-      "infuraNetwork": null
+      "pathType": "TEST"
     },
     "MyCryptoAPI Ropsten": {
       "rpcUrl": "https://api.mycryptoapi.com/rop",
       "chainId": 3,
-      "path": "44'/1'/0'/0",
-      "infuraNetwork": null
+      "pathType": "TEST"
     },
     "Infura Kovan": {
-      "infuraNetwork": "kovan",
       "chainId": 42,
-      "path": "44'/1'/0'/0",
-      "rpcUrl": null
+      "pathType": "TEST",
+      "rpcUrl": "infura://kovan"
     },
     "Infura Rinkeby": {
-      "infuraNetwork": "rinkeby",
       "chainId": 4,
-      "path": "44'/1'/0'/0",
-      "rpcUrl": null
+      "pathType": "TEST",
+      "rpcUrl": "infura://rinkeby"
     }
   },
   "Other": {
-    "Custom": {
-      "infuraNetwork": null
-    }
+    "Custom": {}
   }
 }

@@ -16,17 +16,26 @@ import TransportU2F from "@ledgerhq/hw-transport-u2f"
 import FetchSubprovider from 'web3-provider-engine/subproviders/fetch'
 import InfuraSubprovider from 'web3-provider-engine/subproviders/infura'
 
+const infuraRegex = /^infura:\/\/(.*)$/
 
 import {version} from './package.json'
 
 export function configureEngine(engine, config) {
+  normaliseConfig(config)
+  let networkType
+  if (infuraRegex.test(config.rpcUrl)) {
+    networkType = 'infura'
+    var [_, infuraNetwork] = infuraRegex.exec(config.rpcUrl)
+  } else {
+    networkType = 'rpc'
+  }
   if (config.debug) engine.addProvider(new LoggingSubprovider())
   engine.addProvider(new DefaultFixture({ web3_clientVersion: `SpaceSuit/${version}/javascript` }))
   engine.addProvider(new DefaultBlockParameterSubprovider())
   engine.addProvider(new NonceTrackerSubprovider())
   engine.addProvider(new SanitizingSubprovider())
   if (config.useHacks) {
-    var syncCacheProvider = new SyncCacheSubprovider({cache: window.sessionStorage, lastChanged: config.lastChanged})
+    var syncCacheProvider = new SyncCacheSubprovider({cache: config.cache || window.localStorage, lastChanged: config.lastChanged})
     engine.addProvider(syncCacheProvider)
     syncCacheProvider.patchSend(engine)
   }
@@ -41,7 +50,7 @@ export function configureEngine(engine, config) {
   if (config.useHacks) engine.addProvider(new GasPaddingSubprovider())
   engine.addProvider(new SignToPersonalSignSubprovider({ stripPrefix: config.useHacks }))
   engine.addProvider(new MinMaxGasPriceSubprovider({ minGasPrice: config.minGasPrice, maxGasPrice: config.maxGasPrice }))
-  let transportPromise = TransportU2F.create()
+  let transportPromise = config.transport || TransportU2F.create()
   let ledgerProvider = createLedgerSubprovider(
     transportPromise, {
       accountsLength: 10,
@@ -55,14 +64,26 @@ export function configureEngine(engine, config) {
       syncCacheProvider.pollForChanges(ledgerProvider)
     })
   }
-  if (config.rpcUrl != null) {
-    engine.addProvider(new FetchSubprovider({ rpcUrl: config.rpcUrl }))
-  } else {
-    engine.addProvider(new InfuraSubprovider({network: config.infuraNetwork || 'mainnet'}))
+  switch (networkType) {
+    case 'rpc':
+      engine.addProvider(new FetchSubprovider({ rpcUrl: config.rpcUrl }))
+      break
+    case 'infura':
+      engine.addProvider(new InfuraSubprovider({ network: infuraNetwork }))
+      break
   }
   if (config.useHacks) {
     engine.isMetaMask = true
     engine.isConnected = function isConnected() {return true}
   }
   return engine
+}
+
+export function normaliseConfig(config) {
+  if (config.infuraNetwork != null) {
+    config.rpcUrl = `infura://${config.infuraNetwork}`
+  }
+  if (!/x/.test(config.path)) {
+    config.path = config.path.replace(/\/0$/, '/x').replace(/\/(\d+)$/, '/x + $1')
+  }
 }

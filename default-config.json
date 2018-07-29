@@ -1,7 +1,7 @@
 {
   "chainId": 1,
-  "path": "44'/60'/0'/0",
-  "infuraNetwork": "mainnet",
+  "path": "44'/60'/0'/x",
+  "rpcUrl": "infura://mainnet",
   "useHacks": true,
   "debug": false,
   "minGasPrice": null,
