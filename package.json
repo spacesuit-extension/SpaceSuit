@@ -59,6 +59,9 @@
     "typeface-megrim": "0.0.54"
   },
   "resolutions": {
-    "@ledgerhq/hw-transport": "../ledgerjs/packages/hw-transport"
+    "@ledgerhq/hw-app-eth": "../ledgerjs/packages/hw-app-eth",
+    "@ledgerhq/hw-transport": "../ledgerjs/packages/hw-transport",
+    "@ledgerhq/hw-transport-u2f": "../ledgerjs/packages/hw-transport-u2f",
+    "@ledgerhq/web3-subprovider": "../ledgerjs/packages/web3-subprovider"
   }
 }
