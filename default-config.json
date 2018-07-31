@@ -5,5 +5,7 @@
   "useHacks": true,
   "debug": false,
   "minGasPrice": null,
-  "maxGasPrice": null
+  "maxGasPrice": null,
+  "accountsOffset": 0,
+  "accountsLength": 10
 }

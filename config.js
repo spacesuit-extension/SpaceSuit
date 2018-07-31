@@ -53,7 +53,8 @@ export function configureEngine(engine, config) {
   let transportPromise = config.transport || TransportU2F.create()
   let ledgerProvider = createLedgerSubprovider(
     transportPromise, {
-      accountsLength: 10,
+      accountsOffset: config.accountsOffset,
+      accountsLength: config.accountsLength,
       networkId: config.chainId,
       path: config.path
     }
@@ -86,4 +87,8 @@ export function normaliseConfig(config) {
   if (!/x/.test(config.path)) {
     config.path = config.path.replace(/\/0$/, '/x').replace(/\/(\d+)$/, '/x + $1')
   }
+  if (!('accountsLength' in config)) config.accountsLength = 10
+  if (!('accountsOffset' in config)) config.accountsOffset = 0
+  if (config.minGasPrice !== null) config.minGasPrice = parseInt(config.minGasPrice)
+  if (config.maxGasPrice !== null) config.maxGasPrice = parseInt(config.maxGasPrice)
 }

@@ -38,7 +38,7 @@ const styles = theme => ({
   optionGroup: {
     marginBottom: theme.spacing.unit
   },
-  gasPrice: {
+  numberField: {
     marginRight: theme.spacing.unit
   }
 })
@@ -87,15 +87,23 @@ function gweiToWei(gweiText) {
   if (gweiText == '') return null
   else {
     let parsed = parseFloat(gweiText)
-    if (isNaN(parsed)) return null
+    if (Number.isNaN(parsed)) return null
     else return Math.floor(parseFloat(gweiText) * 1e9).toString()
   }
 
 }
 
 function weiToGwei(wei) {
-  if (wei != null) return (parseInt(wei) / 1e9).toString()
+  if (wei != null) return (parseInt(wei) / 1e9)
   else return null
+}
+
+function gasPriceValid(gasPriceGwei) {
+  return !Number.isNaN(parseFloat(gasPriceGwei)) || gasPriceGwei === '' || gasPriceGwei === null
+}
+
+function numberValid(n) {
+  return /^\d+$/.test(n)
 }
 
 export class OptionsMenu extends React.Component {
@@ -111,7 +119,9 @@ export class OptionsMenu extends React.Component {
       debug: config.debug,
       useHacks: config.useHacks,
       minGasPrice: weiToGwei(config.minGasPrice),
-      maxGasPrice: weiToGwei(config.maxGasPrice)
+      maxGasPrice: weiToGwei(config.maxGasPrice),
+      accountsOffset: config.accountsOffset,
+      accountsLength: config.accountsLength
     }
   }
 
@@ -167,6 +177,7 @@ export class OptionsMenu extends React.Component {
                     label="Chain Id"
                     type="number"
                     value={this.state.chainId}
+                    error={!numberValid(this.state.chainId)}
                     onChange={(e) => this.setState({chainId: parseInt(e.target.value)})}/>
                 <Button onClick={() => this.setState({chainId: 1})} color="primary">ETH</Button>{' '}
                 <Button onClick={() => this.setState({chainId: 61})} color="primary">ETC</Button>{' '}
@@ -201,10 +212,29 @@ export class OptionsMenu extends React.Component {
           <Divider />
           <ListItem>
             <TextField
+                id="accountsOffset"
+                label="First Account"
+                className={this.props.classes.numberField}
+                type="number"
+                value={this.state.accountsOffset}
+                error={!numberValid(this.state.accountsOffset)}
+                onChange={(e) => this.setState({accountsOffset: e.target.value})}/>
+            <TextField
+                id="accountsLength"
+                label="Number Of Accounts"
+                className={this.props.classes.numberField}
+                type="number"
+                value={this.state.accountsLength}
+                error={!numberValid(this.state.accountsLength)}
+                onChange={(e) => this.setState({accountsLength: e.target.value})}/>
+          </ListItem>
+          <ListItem>
+            <TextField
                 id="minGasPrice"
                 label="Min Gas Price"
-                className={this.props.classes.gasPrice}
+                className={this.props.classes.numberField}
                 value={this.state.minGasPrice}
+                error={!gasPriceValid(this.state.minGasPrice)}
                 onChange={(e) => this.setState({minGasPrice: e.target.value})}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">gwei</InputAdornment>
@@ -212,8 +242,9 @@ export class OptionsMenu extends React.Component {
             <TextField
                 id="maxGasPrice"
                 label="Max Gas Price"
-                className={this.props.classes.gasPrice}
+                className={this.props.classes.numberField}
                 value={this.state.maxGasPrice}
+                error={!gasPriceValid(this.state.maxGasPrice)}
                 onChange={(e) => this.setState({maxGasPrice: e.target.value})}
                 InputProps={{
                   endAdornment: <InputAdornment position="end">gwei</InputAdornment>
@@ -238,7 +269,10 @@ export class OptionsMenu extends React.Component {
             </ListItemSecondaryAction>
           </ListItem>
         </List>
-        <Button onClick={this.saveConfig.bind(this)} variant="raised" color="primary">Save</Button>
+        <Button
+          onClick={this.saveConfig.bind(this)}
+          variant="raised"
+          color="primary" disabled={!this.valid()}>Save</Button>
       </Paper>
       <Snackbar
           open={this.state.snackbarVisible}
@@ -294,14 +328,22 @@ export class OptionsMenu extends React.Component {
     this.props.guessChainId(this.state.rpcUrl, (i) => this.setState({chainId: i}))
   }
 
+  valid() {
+    return numberValid(this.state.accountsLength)
+      && numberValid(this.state.accountsOffset)
+      && numberValid(this.state.chainId)
+      && gasPriceValid(this.state.minGasPrice)
+      && gasPriceValid(this.state.maxGasPrice)
+  }
+
   saveConfig () {
+    if (!this.valid()) return
     let opts = {
       debug: this.state.debug,
       useHacks: this.state.useHacks,
       rpcUrl: this.state.rpcUrl,
       path: this.state.path,
       chainId: this.state.chainId,
-      // infuraNetwork: null, // Delete infuraNetwork, since it's not used any more // FIXME: Why does this keep reappearing???
       minGasPrice: gweiToWei(this.state.minGasPrice),
       maxGasPrice: gweiToWei(this.state.maxGasPrice),
       lastChanged: +new Date()
