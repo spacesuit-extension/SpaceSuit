@@ -149,13 +149,14 @@ export class OptionsMenu extends React.Component {
               <InputLabel htmlFor="network">Network</InputLabel>
               <Select
                   native
+                  id="networkSelect"
                   value={this.state.network}
                   onChange={this.changeNetwork.bind(this)}
                   input={<Input id="network" />}>
                 {Object.keys(networkConfigs).map(networkType => {
                   let typeGroup = networkConfigs[networkType]
-                  return <optgroup label={networkType}>
-                    {Object.keys(typeGroup).map(network => <option value={network}>{network}</option>)}
+                  return <optgroup label={networkType} key={networkType}>
+                    {Object.keys(typeGroup).map(network => <option value={network} key={network}>{network}</option>)}
                   </optgroup>
                 })}
               </Select>
@@ -199,6 +200,7 @@ export class OptionsMenu extends React.Component {
                 <InputLabel htmlFor="path-style">Path Style</InputLabel>
                 <Select
                     native
+                    id="pathStyleSelect"
                     value={this.state.pathStyle}
                     onChange={this.changePathStyle.bind(this)}
                     input={<Input id="path-style" />}>
@@ -270,6 +272,7 @@ export class OptionsMenu extends React.Component {
           </ListItem>
         </List>
         <Button
+          id="saveButton"
           onClick={this.saveConfig.bind(this)}
           variant="raised"
           color="primary" disabled={!this.valid()}>Save</Button>
@@ -346,6 +349,8 @@ export class OptionsMenu extends React.Component {
       chainId: this.state.chainId,
       minGasPrice: gweiToWei(this.state.minGasPrice),
       maxGasPrice: gweiToWei(this.state.maxGasPrice),
+      accountsOffset: parseInt(this.state.accountsOffset),
+      accountsLength: parseInt(this.state.accountsLength),
       lastChanged: +new Date()
     }
 
