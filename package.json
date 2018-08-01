@@ -1,0 +1,17 @@
+{
+  "name": "SpaceSuit-static",
+  "version": "1.0.0",
+  "main": "src/index.html",
+  "repository": "git@github.com:jamespic/SpaceSuit.git",
+  "author": "James Pickering <james_pic@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hyperscript": "^2.0.2",
+    "materialize": "^1.0.0",
+    "muicss": "^0.9.39"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.2",
+    "parcel-bundler": "^1.9.7"
+  }
+}

@@ -1,0 +1,14 @@
+// import MUI colors
+@import "muicss/lib/sass/mui-colors.scss";
+
+// customize MUI variables
+$mui-primary-color:       mui-color('indigo', '500');
+$mui-primary-color-dark:  mui-color('indigo', '700');
+$mui-primary-color-light: mui-color('indigo', '100');
+
+$mui-accent-color:        mui-color('cyan', 'A200');
+$mui-accent-color-dark:   mui-color('cyan', 'A100');
+$mui-accent-color-light:  mui-color('cyan', 'A400');
+
+// import MUI SASS
+@import "muicss/lib/sass/mui.scss";
