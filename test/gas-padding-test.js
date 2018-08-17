@@ -1,6 +1,6 @@
 import {assert} from 'chai'
 
-import ProviderEngine from 'web3-provider-engine'
+import ProviderEngine from '../middleware/advanced-provider-engine'
 import Subprovider from 'web3-provider-engine/subproviders/subprovider'
 import LoggingSubprovider from '../middleware/logging'
 import GasPaddingSubprovider from '../middleware/gas-padding'

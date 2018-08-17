@@ -1,6 +1,6 @@
-import ProviderEngine from "web3-provider-engine";
+import ProviderEngine from "./middleware/advanced-provider-engine";
 
-import {configureEngine} from './config'
+import {configureEngine} from './lib/config.js'
 const engine = new ProviderEngine({ pollingInterval: 5000 }) // Can we easily make this configurable?
 
 const configPromise = new Promise((resolve, reject) => {

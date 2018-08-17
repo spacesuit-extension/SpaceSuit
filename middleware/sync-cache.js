@@ -43,10 +43,10 @@ export default class SyncCacheSubprovider extends Subprovider {
           })
         })
       }
-    } else if (method === 'eth_getBlockByNumber' && 'eth_accounts' in this.pendingCalls) {
+    } else if (method === 'web3_clientVersion' && 'eth_accounts' in this.pendingCalls) {
       /* Hack to workaround https://github.com/makerdao/dai-explorer/issues/25.
        * If there is an outstanding `eth_accounts` request,
-       * delay `eth_getBlockByNumber` request by up to 10 seconds,
+       * delay `web3_clientVersion` request by up to 10 seconds,
        * so that the `eth_accounts` call wins the race.
        */
        let resumed = false
@@ -94,9 +94,9 @@ export default class SyncCacheSubprovider extends Subprovider {
     } else {
       pollWait = Math.min(interval, +lastPolled + interval - new Date)
     }
-    setTimeout(() => {
+    this.poller = setTimeout(() => {
       this._doPoll(coinbaseSubprovider)
-      setInterval(() => {
+      this.poller = setInterval(() => {
         this._doPoll(coinbaseSubprovider)
       }, interval)
     }, pollWait)
@@ -111,6 +111,10 @@ export default class SyncCacheSubprovider extends Subprovider {
         this.emitPayload(request('eth_accounts'), () => {})
       }
     })
+  }
+
+  stopPolling() {
+    clearInterval(this.poller)
   }
 }
 

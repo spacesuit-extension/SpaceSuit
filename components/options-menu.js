@@ -25,7 +25,7 @@ import { withStyles } from '@material-ui/core/styles'
 import networkConfigs from '../network-configs.json'
 import pathTypes from '../path-types.json'
 import { homepage_url } from '../manifest.json'
-import { normaliseConfig } from '../config.js'
+import { normaliseConfig } from '../lib/config.js'
 
 require('babel-polyfill')
 
