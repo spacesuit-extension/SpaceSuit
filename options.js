@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import StyledOptionsMenu, {guessChainId} from './components/options-menu'
+import StyledOptionsMenu from './components/options-menu'
+import guessChainId from './lib/guess-chain-id'
 import defaultConfig from './default-config.json'
 
 chrome.storage.local.get({spacesuitConfig: defaultConfig}, ({spacesuitConfig: config}) => {

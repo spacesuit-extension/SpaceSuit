@@ -66,23 +66,6 @@ export function identifyNetworkFromConfig (config) {
   return {network: "Custom", pathStyle: "ledger_old"}
 }
 
-export async function guessChainId (rpcUrl, cb) {
-  try {
-    let res = await window.fetch(rpcUrl, {
-      method: 'POST',
-      body: '{"jsonrpc": "2.0", "method": "net_version", "params": [], "id": 1}',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      mode: 'cors'
-    })
-    let jsonResult = await res.json()
-    cb(parseInt(jsonResult.result))
-  } catch (e) {
-    console.error(e)
-  }
-}
-
 function gweiToWei(gweiText) {
   if (gweiText == '') return null
   else {

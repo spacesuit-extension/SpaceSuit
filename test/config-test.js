@@ -104,7 +104,7 @@ describe('configureEngine', function () {
   })
   it('should shouldn\'t limit gas prices if no limit configured', async function () {
     this.timeout(30000)
-    configureEngine(engine, makeConfig({}))
+    configureEngine(engine, makeConfig())
     engine.start()
     try {
       let tx = await makeCall('eth_signTransaction', {

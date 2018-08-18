@@ -28,7 +28,7 @@ export default class SyncCacheSubprovider extends Subprovider {
         )
       } else {
         this.pendingCalls[method] = new Promise((resolve, reject) => {
-          next((err, res, cb) => {
+          next((err, res, cb) => setImmediate(() => {
             delete this.pendingCalls[method]
             if (err) reject(err)
             else {
@@ -40,13 +40,13 @@ export default class SyncCacheSubprovider extends Subprovider {
               }
             }
             cb()
-          })
+          }))
         })
       }
-    } else if (method === 'web3_clientVersion' && 'eth_accounts' in this.pendingCalls) {
+    } else if (method === 'eth_getBlockByNumber' && payload.params[0] === '0x0' && 'eth_accounts' in this.pendingCalls) {
       /* Hack to workaround https://github.com/makerdao/dai-explorer/issues/25.
        * If there is an outstanding `eth_accounts` request,
-       * delay `web3_clientVersion` request by up to 10 seconds,
+       * delay `eth_getBlockByNumber` request for block 0 by up to 10 seconds,
        * so that the `eth_accounts` call wins the race.
        */
        let resumed = false

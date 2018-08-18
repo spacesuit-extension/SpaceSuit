@@ -5,6 +5,11 @@
       "pathType": "ETH",
       "rpcUrl": "infura://mainnet"
     },
+    "Infura Websocket (Experimental)": {
+      "chainId": 1,
+      "pathType": "ETH",
+      "rpcUrl": "wss://mainnet.infura.io/ws"
+    },
     "MyCryptoAPI": {
       "rpcUrl": "https://api.mycryptoapi.com/eth",
       "chainId": 1,
@@ -58,6 +63,21 @@
       "chainId": 4,
       "pathType": "TEST",
       "rpcUrl": "infura://rinkeby"
+    },
+    "Infura Ropsten Websocket (Experimental)": {
+      "chainId": 3,
+      "pathType": "TEST",
+      "rpcUrl": "wss://ropsten.infura.io/ws"
+    },
+    "Infura Kovan Websocket (Experimental)": {
+      "chainId": 3,
+      "pathType": "TEST",
+      "rpcUrl": "wss://kovan.infura.io/ws"
+    },
+    "Infura Rinkeby Websocket (Experimental)": {
+      "chainId": 3,
+      "pathType": "TEST",
+      "rpcUrl": "wss://rinkeby.infura.io/ws"
     }
   },
   "Other": {
