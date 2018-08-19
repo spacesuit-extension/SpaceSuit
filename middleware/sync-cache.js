@@ -28,7 +28,7 @@ export default class SyncCacheSubprovider extends Subprovider {
         )
       } else {
         this.pendingCalls[method] = new Promise((resolve, reject) => {
-          next((err, res, cb) => setImmediate(() => {
+          next((err, res, cb) => setTimeout(() => {
             delete this.pendingCalls[method]
             if (err) reject(err)
             else {
@@ -40,7 +40,7 @@ export default class SyncCacheSubprovider extends Subprovider {
               }
             }
             cb()
-          }))
+          }, 0))
         })
       }
     } else if (method === 'eth_getBlockByNumber' && payload.params[0] === '0x0' && 'eth_accounts' in this.pendingCalls) {
